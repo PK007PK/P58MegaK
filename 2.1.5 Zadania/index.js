@@ -57,6 +57,7 @@ function program3() {
 
 async function program4() {
     const BASE_DIR = './';
+
     async function checkDir(dir) {
         const list =  await readdir(dir);
         const improvedList = [];
