@@ -1,178 +1,107 @@
-const { mkdir, rename } = require('fs');
-const { mkdir: mkdirprom, rename: renameprom, unlink, rm } = require('fs').promises;
-const {writeFile: writeFileProm} = require('fs').promises;
+const {join, basename, dirname, extname, normalize, resolve} = require('path');
+const { watch } = require('chokidar');
+const { readFile } = require('fs').promises;
 /*
-    Tworzenie katalogu, wersja callback
+    Śledzenie plików z chokidar . Nie ma promisów. Mamy tu rzeczy które mogą się wykonać wielokrotnie. Dlatego
+    Nie nadaje się to do promisów.
  */
+
+
 
 function program1() {
-    mkdir('./mega_k', (err => {
-        err && console.log(err)
-    }));
+    watch('.');
 }
+
 //program1()
 
-/*
-    Tworzenie katalogu, wersja promisowa
- */
-
 function program2() {
-    (async ()=>{
-        try {
-            await mkdirprom('./mega_k2')
-        } catch(err) {
-            console.log(err)
-        }
-    })()
+    watch('.').on('all',(event,path)=>{console.log(event,path)})
 }
-
 //program2()
 
+
 /*
-    Powyższym sposobem nie stworzymy katalogu w katalogu.
-    Aby powstała ścieżka jednym ze sposobów jest dodanie w opcjach recursive: true.
-    Domyślnie jest to false. Takie podawanie całej ścieżki może być podatne na tworzenie błędów.
- */
+Można używać globów
+Glob na wszystkie podfoldery i pliki to kropka slash gwiazdka gwiazdka slash gwiazdka kropka
+Glob na wszystkie podfoldery i pliki js to kropka slash gwiazdka gwiazdka slash gwiazdka kropka js
+*/
 
 function program3() {
-    (async ()=>{
-        try {
-            await mkdirprom('./mega_k2', {
-                recursive: true, //stworzy za nas całą ścieżkę
-            })
-        } catch(err) {
-            console.log(err)
-        }
-    })()
+    watch('./**/*.').on('all',(event,path)=>{console.log(event,path)})
 }
-
 //program3()
 
-/*
-    Zmiana nazwy pliku ale też przenoszenie pliku. W systemach unixowych, ale też w nodzie
-    zmiana nazwy jest tym samym co przeniesienie pliku.
- */
-
 function program4() {
-    (async ()=>{
-        try {
-            await writeFileProm('./hello.txt', 'Hello, World!', 'utf8');
-            await renameprom('./hello.txt', './renamedHello.txt')
-        } catch(err) {
-            if (err.code === 'ENOENT') {
-                console.log('Given file name does not exist!')
-            } else {console.log(err)}
-        }
-    })()
-}
+    watch('./**/*')
+        .on('add',(path)=>console.log(`File ${path} has been added`))
 
+}
 //program4()
 
 /*
-Przenosimy plik:
+Tricki związane z chokidarem
+
+pooling. Domyślnie jest wyłączony, gdyż jest mało wydajny.
+Natomiast jeżeli obserwujesz jakieś nioetypowe zmiany, np w lokalizachach zdalnych,
+wtedy warto zastanowić się nad użyciem usePooling: true
+
+Pojawiają się sytuacje, jak np zdalny folder ftp - kiedy zapis nie jest natychmiastowy,
+a my chcemy używać chokidar by wiedzieć jaka jest zawartość pliku.
+
+Wtedy warto użyć flagi: awaitWriteFinish: true;
+
+W skrócie spowoduje ona oczekiwanie na to aż plik zostanie zapisany w całości (na tyle na ile to możliwe),
+zanim wyemituje zdarzenie add czy change.
+
+ignoreInitial: true - spowoduje, że nie dostaniemy tej całej wyliczanki na początku
  */
 
 function program5() {
-    (async ()=>{
-        try {
-            await writeFileProm('./hello.txt', 'Hello, World!', 'utf8');
-            await renameprom('./hello.txt', './data/renamedHello.txt')
-        } catch(err) {
-            if (err.code === 'ENOENT') {
-                console.log('Given file name does not exist!')
-            } else {console.log(err)}
-        }
-    })()
+    watch('.', {
+        awaitWriteFinish: true,
+        ignoreInitial: true,
+    })
+        .on('add',(path)=>{console.log(`File ${path} has been added`)})
 }
-
 //program5()
 
-/*
-Globalna zmienna process
-Znajdują się w niej wszystkie informacje na temat środowiska, noda, etc, konsole, konto użytkownika...
-Jest elementem obiektu global.
+async function programZadanie() {
+    function safeJoin(base, target) {
+        const targetPath = '.' + normalize('/'+target);
+        return resolve(base, targetPath);
+    }
 
-argv - po wcześniejszych językach prog się przyjęło. Argument vector.
-Jest tablicą, zawiera pełną ścieżkę binarną do noda w wykorzystywanej wersji i to samo do pliku który jest wykonywany.
-
-Jeżeli wpiszemy w konsoli node index.js xyz sss fff, to argv dostanie kolejne elementy tablicy.
-W sytuacji kiedy w nazwie pliku lub katalogu mamy spację argument w linii komend możemy wpisać w nawiasie co rozwiąże problem.
-
-Od drugiego miejsca w argv znajdują się rzeczy które tam przekazaliśmy sami. Możemy coś z nimi zrobić.
- */
-
-function program6() {
-    //console.log(process);
-    //console.log(global.process);
-    console.log(global.process.argv);
-    const a = Number(process.argv[2]);
-    const b = Number(process.argv[3]);
-    console.log(a+b);
+    const userPath = `${safeJoin(__dirname, process.argv[2])}\\*.js`;
+    console.log("Watching path:", userPath);
+    watch(userPath, {
+        awaitWriteFinish: true,
+        ignoreInitial: true,
+    })
+        .on('add',path => {
+            console.log(`File ${path} has been added`);
+            (async() => {
+                try {
+                    console.log(`${path} content: `);
+                    const file = await readFile(path, 'utf8');
+                    console.log(file);
+                } catch(e) {
+                    console.log(e);
+                }
+            })()
+        })
+        .on('change', path => {
+            console.log(`File ${path} has been changed`);
+            (async() => {
+                try {
+                    console.log(`${path} content: `);
+                    const file = await readFile(path, 'utf8');
+                    console.log(file);
+                } catch(e) {
+                    console.log(e);
+                }
+            })()
+        })
+        .on('unlink', path => console.log(`File ${path} has been deleted`))
 }
 
-//program6()
-
-/*
-Program do zmiany nazw plików
- */
-
-function renameProg() {
-    (async()=>{
-        const oldFile = process.argv[2];
-        const newFile = process.argv[3];
-        try {
-            await renameprom(oldFile, newFile)
-        } catch(err) {
-            if (err.code === 'ENOENT') {
-                console.log('Given file name does not exist!')
-            } else {console.log(err)}
-        }
-    })()
-}
-
-//renameProg()
-
-/*
-Usuwanie plików, katalogów i ich połączeń. Są do tego różne paczki, ale ostatnio pojawiło się fs.rm().
-Może ona usuwać pliki, katalogi oraz wszystko w środku. Inne to:
-1) fs.unlink()
-2) fs.rmdir()
-1 i 2 działają tak, że musimy zrobić unlink, potem jak już nie ma tam plików to rmdir, potem idziemy katalog wyżej itd, itp.
-Dlatego dobry jest ten nowy fs.rm(). Minusem jest to że rm powstał w wersji 14 noda.
- */
-
-function delProg() {
-    (async()=>{
-        const selectedFile = process.argv[2];
-        try {
-            await unlink(selectedFile)
-        } catch(err) {
-            if (err.code === 'ENOENT') {
-                console.log('Given file name does not exist!')
-            } else {console.log(err)}
-        }
-    })()
-}
-
-/*
-rm version
- */
-
-function delProg2() {
-    (async()=>{
-        const selectedFile = process.argv[2];
-        try {
-            await rm(selectedFile, {
-                recursive: true, //Wchodzi do katalogów i kasuje wszystko co jest w środku
-            })
-        } catch(err) {
-            if (err.code === 'ENOENT') {
-                console.log('Given file name does not exist!')
-            } else {console.log(err)}
-        }
-    })()
-}
-
-/*
-Obserwowanie zmian. Jedną z metod jest fs.watch. Ale to jest bardzo kiepskie. Nie korzystać z tego. Taka informacja zakończyła lekcję.
- */
+programZadanie()
