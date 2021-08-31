@@ -1,178 +1,127 @@
 /*
-Do listy na blachę:
-arr.find() // zwróci jeden element z całej tablicy, dla którego dostaniemy pierwsze true.
+    child_process ze szczególnym uwzględnieniem exec
+    Pozwalający na wywołanie dowolnych procesów, programów, a nawet komend i odczytania z nich wyjścia
 
-Fetch w node.js . Warto z niego korzystać, bo jest to standardowe api przeglądarek.
-Nie ma kilku fajnych rzeczy które ma axios. Ale jest standardem.
+    Po co uruchamianie innych procesów?
+    - Uruchamianie dosłownie dowolnych komend dostępnych w programach cli/lini komend.
+    - Kontrolowanie systemu i pobieranie informacji na jego temat.
+    - Automatyczne systemy CI/CD (continious integration, continious delivery), w tym automatyczne pobieranie aktualizacji czy kodu z GIT.
 
-Backend często działa inaczej niż front. Na froncie przeglądarka dba o CORS i wszystko
-co z nim związane.
+    jest kilka alternatyw robiących teoretycznie to samo:
+    - child_process.exec
+    - child_process.execFile
+    - child_process.fork
+    - child_process.spawn
+    Z nich wszystkich najabardziej uniwersalny jest exec.
+*/
 
-Backend nie podlega podobnym ograniczeniom. Z drugiej strony BE nie weryfikuje tak dokładnie i dobrze SSL, HSTS itd.
-
-Fetcha w node używamy za pomocą paczki node-fetch. Używamy tam innego formatu dołączania modułów(eksporty domyślne),
-dlatego importujemy w ten sposób:
-
-const fetch = require('node-fetch');
- */
-
-const fetch = require('node-fetch')
+const {exec} = require('child_process');
 
 function program1() {
-    fetch('https://wp.pl')
-        .then(r=>r.text())
-        .then(html=>console.log(html));
+    const cp = exec('dir'); //tworzy obiekt typu ChildProcess
+    cp.on('close', () => {
+        console.log('Finished!');
+    })
 }
+
 //program1()
 
-/*
-Program 1 nie mógłby zadziałać w przeglądarce bo zostałby zablokowany przez wp. Ale w nodzie może działać.
-
-W programie 2 pobieramy dane dla wszystkich stacji, gdyż api nie daje nam możliwości pobrania ich wyłącznie
-dla określonej stacji. Gdybyśmy mieli taką możliwość, to program byłby szybszy.
- */
-
 function program2() {
-    const cityName = process.argv[2];
-
-    // const processWeatherData = data => {
-    //     data.find((stationData)=>{
-    //         if (stationData.stacja === cityName) {
-    //             return true
-    //         } else {
-    //             return false
-    //         }
-    //     })
-    // }
-    const processWeatherData = data => {
-        const dataFound = data.find((stationData) => stationData.stacja === cityName)
-        //dataFound ? console.log(dataFound) : console.log("City not found");
-
-        if (!dataFound) {
-            console.log('Takiego miasta nasze API nie przewidziało!');
-            return;
-        };
-
-        const {cisnienie: pressure, wilgotnosc_wzgledna: humidity,  temperatura: temperature} = dataFound;
-
-        const weatherInfo = `In ${cityName} there is ${temperature}, ${humidity}% of humidity and pressure of ${pressure} hPa`;
-        console.log(weatherInfo);
-    }
-
-    fetch('https://danepubliczne.imgw.pl/api/data/synop')
-        .then(r=>r.json())
-        .then(processWeatherData);
+    const cp = exec('ping 8.8.8.8');
+    cp.on('close', () => {
+        console.log('Finished!');
+    })
 }
 
 //program2()
 
 /*
-W prog 3 dodajemy zapisywanie do pliku.
+Można jako środkowy parametr do exec przekazać opcje.
+Najważniejsze:
+- bardzo często aby sterować programem zmieniamy mu zmienne środowiskowe. Możemy je nadpisać w używając opcji env.
+  Na tym env-a kończymy na razie... zostanie rozwinięty w kolejnych lekcjach.
+- aktualny folder roboczy. Możemy go ustawić dzięki opcji cwd.
+  Polecam zawsze to robić gdy budujemy większy system jak CI/CD bo dzięki temu mamy pewność, że program wykonuje się tam gdzie nam się wydaje.
+  Przetestujemy to później.
+- timeout. Polecam go dawać, często przydaje się gdyby jakaś automatyzacja miała się zawiesić.
+
+Ręczne zawieszenie procesu: cp.kill() . Co to oznacza... Na unixie domyślnie prośbę dla procesu aby się zakończył.
+  Na Windowsie ubicie procesu. Any na unixie uzyskać podobny efekt co na Windowsie papiszemy cp.kill('SIGKILL');
  */
 
-const { appendFile } = require('fs').promises;
-const { normalize, resolve } = require('path');
-
 function program3() {
-    const cityName = process.argv[2];
+    const cp = exec('ping 8.8.8.8', {
+        env: {
+            PATH: '',
+            timeout: 1000, // Automatycznie przerwie proces po 1s.
 
-    const getDataFileName = city => safeJoin('./data/', `${city}.txt`);
-
-    function safeJoin(base, target) {
-        const targetPath = '.' + normalize('/'+target);
-        return resolve(base, targetPath);
-    }
-
-    const processWeatherData = async data => {
-        const dataFound = data.find((stationData) => stationData.stacja === cityName)
-        if (!dataFound) {
-            console.log('There is no such city in our API!');
-            return;
-        };
-
-        const {cisnienie: pressure, wilgotnosc_wzgledna: humidity,  temperatura: temperature} = dataFound;
-        const weatherInfo = `In ${cityName} there is ${temperature}, ${humidity}% of humidity and pressure of ${pressure} hPa`;
-        console.log(weatherInfo);
-        const dataString = new Date().toLocaleDateString();
-        await appendFile(getDataFileName(cityName), `\n${dataString}\n${weatherInfo}\n`, )
-    }
-
-    fetch('https://danepubliczne.imgw.pl/api/data/synop')
-        .then(r=>r.json())
-        //.then(processWeatherData)
-        .then(data=>processWeatherData(data))
-        .catch(error=>{
-        console.log(console.log('Error has occurred :', error));
+        }
+    });
+    cp.on('close', () => {
+        console.log('Finished!');
     })
+    cp.kill();
+    setTimeout(()=>{
+        cp.kill();
+    }, 1000)
 }
 
 //program3()
 
+/*
+Strumienie. Często głównie w systemach Unixowych - mówimy o strumieniach. Najważniejsze z nich to:
+- stdout - standardowe wyjście programu;
+- stdin - wejście programu;
+- stderr - wyjście programu dla błędów (uwaga: niektóre programy np GIT czy npm wykorzystują czasem to wyjście, żeby podkreślić coś ważnego, a nie tylko jako błąd. )
+
+Takie same istnieją w ChildProcess. Można nimi manipulować na wiele sposobów, ale póki co zostawimy je w spokoju takie jakie są.
+ */
+
 function program4() {
-    function safeJoin(base, target) {
-        const targetPath = '.' + normalize('/'+target);
-        return resolve(base, targetPath);
-    }
+    const cp = exec('dir');
+    cp.stdout.on('data', data => {
+        console.log('Data...', data) // wyświetli się 2 razy, bo dir dwa razy coś pisał do wyjścia: 1) wypisał nagłówek, 2 wypisał katalogi
+    })
 
-    const getDataFileName = city => safeJoin('./data/', `${city}.txt`);
+    cp.stderr.on('data', err => {
+        console.log('Error...', err)
+    })
 
-    const processWeatherData = async (data, cityName) => {
-        const dataFound = data.find((stationData) => stationData.stacja === cityName)
-        if (!dataFound) {
-           throw new Error('There is no such city in our api!')
-        };
-
-        const {cisnienie: pressure, wilgotnosc_wzgledna: humidity,  temperatura: temperature} = dataFound;
-        const weatherInfo = `In ${cityName} there is ${temperature}, ${humidity}% of humidity and pressure of ${pressure} hPa`;
-        console.log(weatherInfo);
-        const dataString = new Date().toLocaleDateString();
-        await appendFile(getDataFileName(cityName), `\n${dataString}\n${weatherInfo}\n`);
-    }
-
-    const checkCityWeather = async cityName => {
-        try {
-            const res = await fetch('https://danepubliczne.imgw.pl/api/data/synop');
-            const data = await res.json();
-            await processWeatherData(data, cityName);
-        } catch(error) {
-            console.log('Error has occured :(', error);
-        }
-    }
-    checkCityWeather(process.argv[2])
+    cp.on('close', () => {
+        console.log('Finished!');
+    })
 }
-
 //program4()
 
+function program5() {
+    const cp = exec('ping 8.8.8.8'); // możemy ać też 'npm init -y', możemy coś zainstalować, etc.
+    cp.stdout.on('data', data => {
+        console.log('Data...', data) // wyświetli się 2 razy, bo dir dwa razy coś pisał do wyjścia: 1) wypisał nagłówek, 2 wypisał katalogi
+    })
 
-function warmestPlaceInPoland() {
+    cp.stderr.on('data', err => {
+        console.log('Error...', err)
+    })
 
-    const processWeatherData = async (data) => {
-        //Sort jest mutujące
-        // Poniżej poprzez spread operator tworzymy nową tablicę, bo nie chcemy sortować data.
-        const sortedData = [...data].sort((a,b)=>{
-            if (b.temperatura > a.temperatura) {
-                return -1;
-            };
-            if (a.temperatura > b.temperatura) {
-                return 1;
-            }
-            return 0;
-        })
-        //const sortedData = [...data].sort((a,b)=>b.temperatura - a.temperatura);
-        const {stacja: station, temperatura: temperature} = sortedData[0];
-        console.log(station, temperature);
-    }
+    cp.on('close', () => {
+        console.log('Finished!');
+    })
+}
+//program5()
 
-    const findWarmestPLaceInPoland = async () => {
-        try {
-            const res = await fetch('https://danepubliczne.imgw.pl/api/data/synop');
-            const data = await res.json();
-            await processWeatherData(data);
-        } catch(error) {
-            console.log('Error has occured :(', error);
+
+//Wersja poniższe będzie czekało do końca programu, ten callback się wykona raz
+function program6() {
+    exec('dir', (error, stdout, stderr)=>{
+        if (error) {
+            console.error('Oh, no!', error);
+        } else if (stderr) {
+            console.log("Error in app!", stderr);
+        } else {
+            console.log("Prog has finished", stdout);
         }
-    }
-    findWarmestPLaceInPoland()
+    });
+
 }
 
-warmestPlaceInPoland()
+program6()
