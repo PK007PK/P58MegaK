@@ -8,14 +8,15 @@
     - Automatyczne systemy CI/CD (continious integration, continious delivery), w tym automatyczne pobieranie aktualizacji czy kodu z GIT.
 
     jest kilka alternatyw robiących teoretycznie to samo:
-    - child_process.exec
+    - child_process.exec -> oznacza, że istnieje moduł child process, który ma metodę ecex.
     - child_process.execFile
     - child_process.fork
     - child_process.spawn
     Z nich wszystkich najabardziej uniwersalny jest exec.
 */
 
-const {exec} = require('child_process');
+const { exec } = require('child_process');
+
 
 function program1() {
     const cp = exec('dir'); //tworzy obiekt typu ChildProcess
@@ -24,7 +25,7 @@ function program1() {
     })
 }
 
-//program1()
+program1()
 
 function program2() {
     const cp = exec('ping 8.8.8.8');
@@ -124,4 +125,4 @@ function program6() {
 
 }
 
-program6()
+//program6()
