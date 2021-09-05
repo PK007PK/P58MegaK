@@ -19,13 +19,16 @@ const { exec } = require('child_process');
 
 
 function program1() {
-    const cp = exec('dir'); //tworzy obiekt typu ChildProcess
+    const cp = exec('dir'); //tworzy obiekt typu ChildProcess, dir wyświetla katalogi
     cp.on('close', () => {
         console.log('Finished!');
-    })
+    }); // asynchroniczne
+    cp.on('exit', (code) => {
+        console.log(`child process exited with code ${code}`);
+    });
 }
 
-program1()
+//program1()
 
 function program2() {
     const cp = exec('ping 8.8.8.8');
@@ -56,12 +59,14 @@ function program3() {
             PATH: '',
             timeout: 1000, // Automatycznie przerwie proces po 1s.
 
-        }
+        },
     });
     cp.on('close', () => {
         console.log('Finished!');
     })
-    cp.kill();
+    // cp.kill(); ręczne zabicie programu, poniższejest po określonym czasie.
+    // cp.kill('SIGKILL'); Bezwarunkowe zabicie
+
     setTimeout(()=>{
         cp.kill();
     }, 1000)
@@ -94,35 +99,47 @@ function program4() {
 }
 //program4()
 
-function program5() {
-    const cp = exec('ping 8.8.8.8'); // możemy ać też 'npm init -y', możemy coś zainstalować, etc.
+function program31() {
+    const cp = exec('dir', {
+        cwd: 'C:\\' //cwd - aktualny folder roboczy
+    }); //tworzy obiekt typu ChildProcess, dir wyświetla katalogi
+    cp.on('close', () => {
+        console.log('Finished!');
+    });
     cp.stdout.on('data', data => {
         console.log('Data...', data) // wyświetli się 2 razy, bo dir dwa razy coś pisał do wyjścia: 1) wypisał nagłówek, 2 wypisał katalogi
     })
+}
+//program31();
 
-    cp.stderr.on('data', err => {
+function program5() {
+    const cp = exec('ping 8.8.8.8'); // możemy dać też 'npm init -y', możemy coś zainstalować, etc.
+    cp.stdout.on('data', data => {
+        console.log('Data...', data) // wyświetli się 2 razy, bo dir dwa razy coś pisał do wyjścia: 1) wypisał nagłówek, 2 wypisał katalogi
+    })
+    cp.stderr.on('Error...', err => {
         console.log('Error...', err)
     })
-
     cp.on('close', () => {
         console.log('Finished!');
     })
 }
 //program5()
 
+/*
+Inny sposób. Callback w stylu nodowym. Będzie czekać do końca programu i wykona się raz
+ */
 
-//Wersja poniższe będzie czekało do końca programu, ten callback się wykona raz
 function program6() {
     exec('dir', (error, stdout, stderr)=>{
         if (error) {
-            console.error('Oh, no!', error);
+            console.error('Oh, no!', error); // np kiedy zamiast dira wpiszę bełkot, błąd ogólny
         } else if (stderr) {
-            console.log("Error in app!", stderr);
+            console.log("Error in app!", stderr); // może kiedy komenda zwróci nam jakiś swój błąd///???
         } else {
             console.log("Prog has finished", stdout);
         }
     });
-
 }
 
-//program6()
+program6()
