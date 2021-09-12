@@ -78,4 +78,14 @@ Buffer może być także min:
 /*
 Jakieś praktyczne wykorzystanie. Np nasze programy szyfrujące obsługują tylko dane tekstowe.
 Dzięki bufferowi mogą obsłużyć także dane binarne.
+Dalej modyfikacja pliku cipher.js
+
+ */
+
+/*
+Co jeszcze można z buffer:
+- operacje na plikach binarnych;
+- kompresowanie plików;
+- przesyłanie strumieni video i audio w sieci;
+- na rozmowę kwalifikacyjną dot w pytaniach o podstawy struktur typowych dla noda
  */
