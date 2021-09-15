@@ -1,13 +1,13 @@
 /*
 http
 Wprowadzenie do tego co node robi najlepiej czyli webserwerów.
-Dzisiejsza lekcja jest bardzo niskopoziomowa. Fundament tego na czym pracuje ekspres.
+Dzisiejsza lekcja jest bardzo niskopoziomowa. Fundament tego na czym pracuje ekspress.
 Jest to wprowadzenie do komunikacji sieciowej.
 
 Web server (HTTP server)
 Web server to aplikacja (program), która nasłuchuje rządania od klienta, przetwarza je i wysyła odpowiedź.
 Web serwer działa (najczęściej) w oparciu o protokół HTTP, który określa reguły komunikacji między klientem
-(najczęściej przeglądarka) a serwerem. Polskim określeniem na webserwer jest serwer WWW, web serwer lub serwer webowy.
+(najczęściej przeglądarka), a serwerem. Polskim określeniem na webserwer jest serwer WWW, web serwer lub serwer webowy.
 
 Mówiąc serwer można mieć na myśli wiele rzeczy. Często mówimy po prostu serwer zamiast web server czy serwer http -
 wszystko zależy od kontektu. Bardzo często mówiąc serwer mamy na myśli fizyczne urządzenie, podłączone do sieci (internetu),
@@ -17,7 +17,7 @@ Z definicją serwera jest podobnie jak z definicją API. Wszystko zależy od kon
 My będziemy mówili o serwerze jako o programie, do którego łączy się klient (np przeglądarka).
 
 Co robi web server:
-1. Nasłuchuje żadań (request) od klienta (najczęściej przeglądarka);
+1. Nasłuchuje żadań (requestów) od klienta (najczęściej przeglądarki);
 2. Gdy żądanie wystąpi, przetwarza je. Całą logikę określamy aplikacją serwerową.
 3. Wysyła do klienta odpowiedź (response)
 
@@ -34,7 +34,8 @@ Adres IP. Każdy klient i każdy serwer ma swój adres IP, który pozwala się o
 Socket - gniazdo które łączy klienta z serwerem. Możemy sobie je wyobrazić jako połączenie (linię) łączącą po której przesyłane są dane.
 Otwiera się i zamyka. To bardzo ważna definicja która przyda się kiedyś w zaawansowanych zastosowaniach.
 
-Pakiety - sposób przesyłania danych. Dane dzielone są na fragmenty i w taki sposób przesyłane między klientem a serwerem (pakiety).
+Pakiety - sposób przesyłania danych. Dane dzielone są na fragmenty i w taki sposób przesyłane
+między klientem a serwerem (pakiety).
 
 http - HyperText Transfer Protocol.
 Istnieją też protokoły z których korzysta TCP/IP. Najpopularniejszym jest HTTP (inne popularne to FTP czy SMTP).
@@ -71,7 +72,7 @@ megak.pl - host (domena lub adres IP);
 
 Całe powyższe wyrażenie stanowi adres url. PS. URL to rodzaj URI. URI to dowolny identyfikator, np ISBN jest URI.
 
-Port (numer). Połączenie wymaga nie tylkoi adresów IP, ale także numeru portu na którym web serwer nasłuchuje zapytania.
+Port (numer). Połączenie wymaga nie tylko adresów IP, ale także numeru portu na którym web serwer nasłuchuje zapytania.
 Na serwerze (dostępnym pod adresem IP) może działać bowiem wiele programów nasłuchujących żądania, m.in nasz Web serwer.
 Po to jest właśnie port, by prawidłowo rozdzielić żądanie.
 
@@ -87,17 +88,15 @@ https://nazwastrony.com:443 - oznacza to samo co https://nazwastrony.com - domy�
 http://nazwastrony.com:80 - oznacza to samo co http://nazwastrony.com - domyślny port dla http
 
 Aplikacja serwerowa a web serwer. W node.js nasz web serwer i aplikacja serwerowa to w zasadzie to samo.
-Node.js używamy do tworzenia aplikacji serwerowych, których częścią jest serwer HTTP. Wynikiem działania aplikacji serwerowej najczęściej będzie strona www,
-aplikacja webowa (sieciowa), czy udostęnione API (RESTfull Api).
+Node.js używamy do tworzenia aplikacji serwerowych, których częścią jest serwer HTTP. Wynikiem działania aplikacji serwerowej najczęściej będzie strona www, aplikacja webowa (sieciowa), czy udostęnione API (RESTfull Api).
 
 Odbieramy żądanie (serwer http)
-Przetwarzamy żądanie - logika, baza danych (aplikacja serwerowa)
-Zwracamy odpowiedź (serwer http)
+Przetwarzamy żądanie - logika, baza danych (aplikacja serwerowa). Zwracamy odpowiedź (serwer http)
  */
 
 
 /*
-Modłu http (modłu podstawowy)
+Modł http (modłu podstawowy)
 Kompletne, wydajne rozwiązanie, które pozwala tworzyć w Node.js serwer http.
 By korzystać z modułu http musimy go umieścić w aplikacji za pomocą require.
 
@@ -119,15 +118,13 @@ function program1() {
     Podamy tu port i host, na których nasłuchujemy
 
     127.0.0.1 to interfejs nasłuchujący. To co tu wpiszemy oznacza gdzie nasz serwer został uruchomiony.
-    to jest zawsze nasz adres ip, chodzi o maszynę na której uruchamiamy dany kod. kocalhost.  Nikt z zewnątrz nie
+    Ten podany wcześniej to jest zawsze nasz adres ip, chodzi o maszynę na której uruchamiamy dany kod,  kocalhost.  Nikt z zewnątrz nie
     może na to wejść.
 
-    Jeżeli chcemy, żeby mogli wejść podajemy 0.0.0.0 - wtedy przyjmuje połączenia z zewnątrz.
+    Jeżeli chcemy, żeby mógł tam ktoś wejść to podajemy 0.0.0.0 - wtedy przyjmuje połączenia z zewnątrz.
 
     Dlaczego 3000. Portu 80 nie używamy, bo często jest zablokowany na kompie lokalnym, a nawet w prawdziwym serwerze.
-    Portu 443 nie używamy, bo nie umiemy jeszcze robić https.
-
-    3000 jest przyjętą konwencją nodową. tak jak 8080 w php.
+    Portu 443 nie używamy, bo nie umiemy jeszcze robić https. 3000 jest przyjętą konwencją nodową. tak jak 8080 w php.
      */
     http.createServer().listen(3000, '127.0.0.1');
 }
@@ -137,7 +134,7 @@ function program1() {
 function program2() {
     /*
     createServer może przyjąć funkcję, tzw Request listener. Ten callback będzie wywoływany, kiedy pojawi się żądanie z zewnątrz.
-    Jak teraz w przeglądarce wejdziemy na localhost:3000 . Obecnie to się zawieci, bo nasz serwer jeszcze nie potrafi zakończyć
+    Jak teraz w przeglądarce wejdziemy na localhost:3000 . Obecnie to się zawiesi, bo nasz serwer jeszcze nie potrafi zakończyć
     połączenia. W node wyświetli się hi. W przeglądarce niestety jeszcze nie.
      */
     http.createServer(()=>{
