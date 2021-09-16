@@ -1,7 +1,7 @@
 /*
 Żądane http i działanie serwera
 
-Zadamoe http zawiera:
+Żądanie http zawiera:
 - nazwę metody. Domyślnie wysyła get;
 - ścieżkę URL (bez portu i hosta);
 - wersję protokołu;
@@ -43,10 +43,10 @@ function program1() {
 
     http.createServer((req, res) => {
         /*
-        req.url - ścieżka url (sama domena to '/')
-        req.method - domyślnie GET
-        req.headers - obiekt składający się z par nazwa - wartość
-        {host: "localhost:3000", connection: "keep-alive}
+            req.url - ścieżka url (sama domena to '/')
+            req.method - domyślnie GET
+            req.headers - obiekt składający się z par nazwa - wartość
+            { host: "localhost:3000", connection: "keep-alive }
          */
     })
 }
@@ -80,7 +80,6 @@ function program3() {
             res.writeHead(404, {'Content-Type': 'text/html'});
             res.end('<h1>Not found</h1>');
         }
-
     })
     server.listen(3000, 'localhost');
 }
@@ -110,7 +109,8 @@ Podobna w strukturze jak zapytanie do niego.
 
 Serwer generuje obiekt odpowiedzi i przekazuje go do funkcji zwrotnej jako drugi argument.
 Wewnątrz funkcji możemy obiekt odpowiedzi edytować i zakończyć (wysłać do klienta).
-Obiekt odpowiedzi powstaje jako instancja klasy ServerResponse z modułu http. Pamiętaj, że wewnątrz powinniśmy tworzyć logikę
+Obiekt odpowiedzi powstaje jako instancja klasy ServerResponse z modułu http.
+Pamiętaj, że wewnątrz powinniśmy tworzyć logikę
 asynchroniczną by nie blokować serwera.
 
 To właśnie klucz do wydajmych serwerów node.
