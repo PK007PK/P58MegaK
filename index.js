@@ -66,11 +66,11 @@ Sól:
 - powinna zawierać losowe znaki
 
 Czego unikać:
-- md5
+-md5
 -sha1
 -sha2
 -Hash hasha
-- własne funkcje skrótu
+-własne funkcje skrótu
 
 Bezpieczne f skrótu;
 w node
