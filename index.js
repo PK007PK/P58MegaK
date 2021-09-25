@@ -22,21 +22,25 @@ function program1() {
 //program1()
 
 /*
-Programnr2 jest dowodem na asynchroniczność readFile. Read file i lookup są w tym
-przypadku asynchroniczne, oparte na callbackach, efekty ich działania zobaczymy na końcu.
+    Programnr2 jest dowodem na asynchroniczność readFile. Read file i lookup są w tym
+    przypadku asynchroniczne, oparte na callbackach, efekty ich działania zobaczymy 
+    na końcu.
 
-Callback jest skonstruowany tak, że podajemy w nim funkcję która zostanie uruchomiona kiedy już coś się stanie.
+    Callback jest skonstruowany tak, że podajemy w nim funkcję która zostanie uruchomiona 
+    kiedy już coś się stanie.
 
-W takim programowaniu błęd nie pojawi nam się tylko dlatego że jest. Musimy sami zadbać o to, aby mieć info że jest błąd.
+    W takim programowaniu błęd nie pojawi nam się tylko dlatego że jest. 
+    Musimy sami zadbać o to, aby mieć info że jest błąd.
 */
 
 function program2() {
     console.log("Start");
-    //Poniższe odpali się na końcu . To tak jak byśmy powiedzieli: wyświetl się jeżeli będzie już gotowe.
-    readFile('./index.js', 'utf8', (err, data) => {
-        if (data) {console.log(data)}
-        if (err) {console.log(err)}
-    })
+    //Poniższe odpali się na końcu . To tak jak byśmy powiedzieli: 
+    //wyświetl się jeżeli będzie już gotowe.
+    // readFile('./index.js', 'utf8', (err, data) => {
+    //     if (data) {console.log(data)}
+    //     if (err) {console.log(err)}
+    // })
     const options = {
         family: 6,
         hints: dns.ADDRCONFIG | dns.V4MAPPED,
@@ -48,7 +52,7 @@ function program2() {
     console.log("End");
 }
 //program2()
-
+ 
 
 /*
     Ulepszymy obsługę błędów przy callbackach w stylu nodowym
@@ -114,7 +118,7 @@ function program4() {
 //program4();
 
 /*
-Przerabiamy callback na promisa i Korzystamy z async await
+    Przerabiamy callback na promisa i Korzystamy z async await
  */
 
 function program5() {
@@ -132,7 +136,7 @@ function program5() {
 //program5()
 
 /*
-Ulepszenie polegające na pracy od razu z zaimportowaną wersją promisową
+    Ulepszenie polegające na pracy od razu z zaimportowaną wersją promisową
  */
 function program6(){
     console.log('Hello, World!');
@@ -171,7 +175,20 @@ function zadaniePromises() {
         .catch(error => {
             console.log('Something went wrong!', error)
         });
+} 
+//zadaniePromises()
+
+function abc() {
+     promisify(readFile)('yahoo.com')
+          .then(data => { 
+              console.log(data.address)
+         })
+         .catch(error => {
+              console.log('Something went wrong!', error)
+         });
 }
+
+abc();
 
 // Wersja z async/await + Promises
 function zadanieAsync() {
