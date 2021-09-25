@@ -10,10 +10,10 @@ function program1() {
             const fileContent = await readFile(`./data/${fileName}`, 'utf8');
             console.log(fileContent);
             const fileStat = await stat(`./data/${fileName}`);
+            console.log(fileStat);
             console.log(fileStat.isFile());
         }
     }
-
     readFilesAndDirectories();
 }
 //program1()
@@ -35,7 +35,7 @@ function program2() {
 //program2()
 
 function program3() {
-    const BASE_DIR = '../';
+    const BASE_DIR = './';
     (async ()=>{
         try {
             const list = await readdir(BASE_DIR,  {
