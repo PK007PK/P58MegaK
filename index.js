@@ -28,6 +28,7 @@ function program2() {
     })
 }
 
+
 /* 
     Inny to base64, nieco skrócony, bezpieczny dla internetu(?). 
     w to String też możemy podać utf8 (można też utf-8) 
@@ -66,7 +67,7 @@ function program4() {
     Teraz wersja promisowa:
 */
 
-const { writeFile } = require('fs').promises;
+// const { writeFile } = require('fs').promises;
 
 function program5() {
     (async () => {
@@ -118,7 +119,7 @@ function program7() {
     plus chcemy to zrobić bez tego obiektu options:
 */
 
-const { writeFile, readFile, appendFile } = require('fs').promises;
+//const { writeFile, readFile, appendFile } = require('fs').promises;
 
 function program8() {
     const FILE_NAME = './data/hello.txt';
@@ -139,7 +140,7 @@ function program8() {
     A teraz na callbackach / dużo i straszny kod bo dużo
 */
 
-const { writeFile, readFile, appendFile } = require('fs').promises;
+//const { writeFile, readFile, appendFile } = require('fs').promises;
 
 function program9() {
     const FILE_NAME = './data/hello.txt';
@@ -231,6 +232,8 @@ function program12() {
 
     readFilesAndDirectories();
 }
+
+program12()
 
 /*
     Nie jest nigdy zalecane sprawdzanie istnienia pliku przed 
