@@ -10,7 +10,7 @@ function program1() {
         err && console.log(err)
     }));
 }
-
+ 
 //program1()
 
 /*
@@ -50,7 +50,8 @@ function program3() {
 //program3()
 
 /*
-    Zmiana nazwy pliku ale też przenoszenie pliku. W systemach unixowych, ale też w nodzie
+    Zmiana nazwy pliku ale też przenoszenie pliku. W systemach unixowych, 
+    ale też w nodzie
     zmiana nazwy jest tym samym co przeniesienie pliku.
 */
 
@@ -90,16 +91,21 @@ function program5() {
 
 /*
     Globalna zmienna process
-    Znajdują się w niej wszystkie informacje na temat środowiska, noda, etc, konsole, konto użytkownika...
+    Znajdują się w niej wszystkie informacje na temat środowiska, 
+    noda, etc, konsole, konto użytkownika...
     Jest elementem obiektu global.
 
     argv - po wcześniejszych językach prog się przyjęło. Argument vector.
-    Jest tablicą, zawiera pełną ścieżkę binarną do noda w wykorzystywanej wersji i to samo do pliku który jest wykonywany.
+    Jest tablicą, zawiera pełną ścieżkę binarną do noda 
+    w wykorzystywanej wersji i to samo do pliku który jest wykonywany.
 
-    Jeżeli wpiszemy w konsoli node index.js xyz sss fff, to argv dostanie kolejne elementy tablicy.
-    W sytuacji kiedy w nazwie pliku lub katalogu mamy spację argument w linii komend możemy wpisać w nawiasie co rozwiąże problem.
+    Jeżeli wpiszemy w konsoli node index.js xyz sss fff, 
+    to argv dostanie kolejne elementy tablicy.
+    W sytuacji kiedy w nazwie pliku lub katalogu mamy 
+    spację argument w linii komend możemy wpisać w nawiasie co rozwiąże problem.
 
-    Od drugiego miejsca w argv znajdują się rzeczy które tam przekazaliśmy sami. Możemy coś z nimi zrobić.
+    Od drugiego miejsca w argv znajdują się rzeczy
+    które tam przekazaliśmy sami. Możemy coś z nimi zrobić.
  */
 
 function program6() {
@@ -136,12 +142,15 @@ function renameProg() {
 //renameProg()
 
 /*
-    Usuwanie plików, katalogów i ich połączeń. Są do tego różne paczki, ale ostatnio pojawiło się fs.rm().
+    Usuwanie plików, katalogów i ich połączeń. Są do tego różne paczki, 
+    ale ostatnio pojawiło się fs.rm().
     Może ona usuwać pliki, katalogi oraz wszystko w środku. Inne to:
     1) fs.unlink()
     2) fs.rmdir()
-    1 i 2 działają tak, że musimy zrobić unlink, potem jak już nie ma tam plików to rmdir, potem idziemy katalog wyżej itd, itp.
-    Dlatego dobry jest ten nowy fs.rm(). Minusem jest to że rm powstał w wersji 14 noda.
+    1 i 2 działają tak, że musimy zrobić unlink, 
+    potem jak już nie ma tam plików to rmdir, potem idziemy katalog wyżej itd, itp.
+    Dlatego dobry jest ten nowy fs.rm(). 
+    Minusem jest to że rm powstał w wersji 14 noda.
 */
 
 function delProg() {
