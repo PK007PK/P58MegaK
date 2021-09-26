@@ -15,8 +15,8 @@ jakiś tekst ważący 8GB -> 00132
 
 W drugą stronę się nie da. Nie możemy odzyskać tekstu pierwotnego. Jest to jednak zaleta.
 
-Po co to w praktyce?
--to ważne narzędzie często wykorzystywane w informatyce.
+Po co to w praktyce? 
+- to ważne narzędzie często wykorzystywane w informatyce.
 - absolutnie obowiązkowe jest go znać i używać tam, gdzie to potrzebne.
 
 Poniżej dwa najczęstsze przypadki wykorzystania.
@@ -27,8 +27,8 @@ zmienił lub czy nie było po drodze błędów (tzw checksuma).
 Checksuma na froncie. Wykorzystywana by pokazać ew błędy i ataki typu man-in-the-middle.
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.0.0-alpha-67f38366a-20210830/umd/react.production.min.js"
-integrity="sha512-TL1DOLocU4YzPUJpVR9ONBz5/yahQLc316RIxNBQhtx/ePdOCeSBtO25R4QVuxe6fwh4epIKL8yYPvunaaW+Zg=="
-crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    integrity="sha512-TL1DOLocU4YzPUJpVR9ONBz5/yahQLc316RIxNBQhtx/ePdOCeSBtO25R4QVuxe6fwh4epIKL8yYPvunaaW+Zg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 2. Drugim przypadkiem jest przechowywanie haseł. Nigdy nie
 robimy tego w tzw plaintekscie, tj przechowując hasło podane przez użytkownika.
@@ -72,14 +72,11 @@ Czego unikać:
 -Hash hasha
 -własne funkcje skrótu
 
-Bezpieczne f skrótu;
-w node
-- sha512
-- PBKDF2
+Bezpieczne f skrótu w node
+    - sha512
+    - PBKDF2
 
-Dostęne w ekosystemie npm, ale nie odrazu w pai noda. Jeszcze lepsze niż powyższe:
--bcrypt
--Whirpool
-
-
+Dostęne w ekosystemie npm, ale nie od razu w api noda. Jeszcze lepsze niż powyższe:
+    -bcrypt
+    -Whirpool
  */
