@@ -12,16 +12,16 @@ function program1() {
 //program1()
 
 /*
-Można przerobić na promisa. To najlepsza opcja przy tak prostych operacjach jak tu robiliśmy.
+    Można przerobić na promisa. To najlepsza opcja przy tak prostych operacjach jak tu robiliśmy.
 
-Jednak pamiętaj, że podobnie jak w obserwowaniu plików, program może zwracać częściowe wyniki w trakcie wykonywania
-kodu. Np ping, GIT, czy narzędzia do CI/CD.
+    Jednak pamiętaj, że podobnie jak w obserwowaniu plików, program może zwracać częściowe wyniki w trakcie wykonywania
+    kodu. Np ping, GIT, czy narzędzia do CI/CD.
 
-Z drugiej strony, jeżeli potrzebujemy kontroli nad procesem (np. aby go zatrzymać - pomijając użycie AbortController, tylko
-za pomocą cp.kill() - nie użyjemy wersji z promisami
+    Z drugiej strony, jeżeli potrzebujemy kontroli nad procesem (np. aby go zatrzymać - pomijając użycie AbortController, tylko
+    za pomocą cp.kill() - nie użyjemy wersji z promisami
 
-Wrsja z promisami:
- */
+    Wersja z promisami:
+*/
 
 function program2() {
     console.log('Program2 starts');
@@ -34,13 +34,14 @@ function program2() {
 //program2()
 
 /*
-const { exec } = require('child_process');
-const util = require('util');
-const execPromisify = promisify(exec);
+    const { exec } = require('child_process');
+    const {promisify} = require('util');
+    const execPromisify = promisify(exec);
 
-lub
-const util = require('util');
-const execPromisify = util.promisify(require('child_process').exec);
+    lub
+
+    const util = require('util');
+    const execPromisify = util.promisify(require('child_process').exec);
  */
 
 
@@ -48,7 +49,7 @@ function program4() {
     execPromisify('dir')
         .then(data => {
             console.log(data); // Promis może nam zwrócić tylko jedno, dlatego zwraca tu obiekt z domyślnymi właściwościami
-        })
+        }) 
 }
 //program4()
 
@@ -189,7 +190,7 @@ function program11() {
         } catch(err) {
             console.error('Oh no', err);
         }
-    })()
+    })() 
 }
 
 //program11()
@@ -215,11 +216,11 @@ function program13() {
         await exec('dir', {
             cwd: pathFromUser
         })
-            .then(data => {
-                console.log(data)
-            }).catch(err => {
-                if (err.code === 'ENOENT') console.log("No such directory");
-            })
+        .then(data => {
+            console.log(data)
+        }).catch(err => {
+            if (err.code === 'ENOENT') console.log("No such directory");
+        })
     })();
 }
 
