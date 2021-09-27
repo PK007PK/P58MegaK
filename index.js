@@ -7,7 +7,7 @@ specyficzna dla noda.
 Programowanie za pomocą zdarzeń oznacza w praktyce, że:
 1. Z jednej strony eliminujemy informację o zdarzeniu - po prostu puszczamy w świat info
 że coś się stało;
-2. Z drugiej strony możźemy na takie zdarzenie zareagować i coś zrobić, gdy się o tym dowiemy
+2. Z drugiej strony możemy na takie zdarzenie zareagować i coś zrobić, gdy się o tym dowiemy
 (obsłużyć zdarzenie).
 
 Bardzo popularne w programowaniu JS jest po prostu używanie zdarzeń. Odnośnie node mówi się często,
@@ -16,9 +16,6 @@ korzystać z tej techniki i jest wbudowane w node.js
 
 Nazywa się właśnie EventEmitter.
 
- */
-
-/*
 Napiszmy prosty program wyświetlający co sekundę "Hi"
  */
 
@@ -31,7 +28,7 @@ function program1() {
 //program1()
 
 /*
-Teraz przenieśmy ten kod do innego pliku, zakłądamy, że jest to osobny moduł
+Teraz przenieśmy ten kod do innego pliku, zakładamy, że jest to osobny moduł
 
 Nadal chcemy obsłużyć to co się dzieje co sekundę - czyli wyświetlać console.log - w głównym pliku naszego programu
 
@@ -51,6 +48,8 @@ W naszym nowym module emitujemy zdarzenie. A więc wykonujemy na obiekcie typu E
 .emmit('nazwaZdarzenia'). Nikt nam go nie narzuca. Naszym zdarzeniem będzie info że minęła sekunda.
 Program co minutę informuje, że zdarzenie miało miejsce, że upłynęła sekunda, tylko nikt tego nie nasłuchuje...
  */
+
+const { tickTock2 } = require('./tick-tock')
 
 function program3() {
     const events = tickTock2(); // events tutaj to to samo co zwracane w tick-tocku ee
@@ -72,7 +71,6 @@ on - reagujemy na zdarzenie
 
  */
 
-const { tickTock2 } = require('./tick-tock')
 
 function program4() {
     const events = tickTock2();
@@ -125,7 +123,7 @@ Wiele listenerów
 To co daje nam ta technika to to, że możemy w dowolnym miejscu naszego prtogramu (o ile mamy dostęp do
 tego samego obiektu EventListener) nasłuchiwać na dowolne zdarzenia tyle razy, ile chcemy.
 Dodajmy jeszcze kilka nasłuchiwań zdarzeń
- */
+*/
 
 function program7() {
     const events = tickTock3();
@@ -133,7 +131,7 @@ function program7() {
         console.log("hi", data);
     });
     events.on('secondElapsed', data => {
-        console.log("Tick!");
+        console.log("Tick!", data);
     });
 }
 
@@ -183,15 +181,15 @@ const { TickTock5 } = require('./tick-tock')
 
 function program10() {
     new TickTock5()
-        .on('secondElapsed', () => {
-            console.log("1 second");
+        .on('secondElapsed', (data) => {
+            console.log(data);
         })
-        .on('fiveSecondsElapsed', () => {
-            console.log("5 seconds");
+        .on('fiveSecondsElapsed', (data) => {
+            console.log(data);
         });
 }
 
-program10()
+//program10()
 
 /*
 Asynchroniczność.

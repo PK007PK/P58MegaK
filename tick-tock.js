@@ -27,10 +27,10 @@ function tickTock3() {
 function tickTock4() {
     const ee = new EventEmitter();
     setInterval(() => {
-        ee.emit('secondElapsed', 'Test');
+        ee.emit('secondElapsed', '1sss');
     }, 1000);
     setInterval(() => {
-        ee.emit('fiveSecondsElapsed', 'Test');
+        ee.emit('fiveSecondsElapsed', '5sss');
     }, 5000);
     return ee;
 }
@@ -39,10 +39,10 @@ class TickTock5 extends EventEmitter {
     constructor() {
         super(); //to jest inicjalizacja EventEmittera
         setInterval(() => {
-            this.emit('secondElapsed', 'Test');
+            this.emit('secondElapsed', '1sss');
         }, 1000);
         setInterval(() => {
-            this.emit('fiveSecondsElapsed', 'Test');
+            this.emit('fiveSecondsElapsed', '5sss');
         }, 5000);
     }
 }
