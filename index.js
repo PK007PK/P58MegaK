@@ -18,8 +18,8 @@ My będziemy mówili o serwerze jako o programie, do którego łączy się klien
 
 Co robi web server:
 1. Nasłuchuje żadań (requestów) od klienta (najczęściej przeglądarki);
-2. Gdy żądanie wystąpi, przetwarza je. Całą logikę określamy aplikacją serwerową.
-3. Wysyła do klienta odpowiedź (response)
+2. Gdy żądanie wystąpi, przetwarza je. Całą logikę określamy aplikacją serwerową;
+3. Wysyła do klienta odpowiedź (response);
 
 Co robi WS? Przede wszystkim czeka w gotowości na zdarzenie.
 
@@ -84,18 +84,16 @@ sam https://megak.pl nie wystarczy bo w tym bloku może mieszkać 65000 osób i 
 Oczywiście, wpisując adres url w przeglądarkę użytkownik bardzo rzadko wpisuje port. Dzieje się tak ponieważ istnieją domyślne porty,
 które będą użyte, o ile nie zostaną przypisane inne.
 
-https://nazwastrony.com:443 - oznacza to samo co https://nazwastrony.com - domyślny port dla https
-http://nazwastrony.com:80 - oznacza to samo co http://nazwastrony.com - domyślny port dla http
+https://nazwastrony.com:443 - oznacza to samo co https://nazwastrony.com - domyślny port dla https;
+http://nazwastrony.com:80 - oznacza to samo co http://nazwastrony.com - domyślny port dla http;
 
 Aplikacja serwerowa a web serwer. W node.js nasz web serwer i aplikacja serwerowa to w zasadzie to samo.
-Node.js używamy do tworzenia aplikacji serwerowych, których częścią jest serwer HTTP. Wynikiem działania aplikacji serwerowej najczęściej będzie strona www, aplikacja webowa (sieciowa), czy udostęnione API (RESTfull Api).
+Node.js używamy do tworzenia aplikacji serwerowych, których częścią jest serwer HTTP. 
+Wynikiem działania aplikacji serwerowej najczęściej będzie strona www, aplikacja webowa (sieciowa), czy udostęnione API (RESTfull Api).
 
 Odbieramy żądanie (serwer http)
 Przetwarzamy żądanie - logika, baza danych (aplikacja serwerowa). Zwracamy odpowiedź (serwer http)
- */
 
-
-/*
 Modł http (modłu podstawowy)
 Kompletne, wydajne rozwiązanie, które pozwala tworzyć w Node.js serwer http.
 By korzystać z modułu http musimy go umieścić w aplikacji za pomocą require.
@@ -132,11 +130,13 @@ function program1() {
 //program1()
 
 function program2() {
+
     /*
     createServer może przyjąć funkcję, tzw Request listener. Ten callback będzie wywoływany, kiedy pojawi się żądanie z zewnątrz.
     Jak teraz w przeglądarce wejdziemy na localhost:3000 . Obecnie to się zawiesi, bo nasz serwer jeszcze nie potrafi zakończyć
     połączenia. W node wyświetli się hi. W przeglądarce niestety jeszcze nie.
-     */
+    */
+
     http.createServer(()=>{
         console.log("Hi");
     }).listen(3000, '127.0.0.1');
@@ -149,7 +149,7 @@ function program3() {
     w callbacku mamy zwyczajowo dwa argumenmty: request (incoming message) i response (server response). Są to obiekty
     z określonymi właściwościami. Wewnątrz funkcji możemy korzystać z obu. W przykładzie dopisaliśmy nagłówek
     w postaci kodu statusu odpowiedzi (200 - ok) oraz typu zawartości odpowiedzi (html)
-     */
+    */
     http.createServer((request, response)=>{
         response.writeHead(200, {'Content-Type': 'text/html'}); // Poniższe się wyświetli jako html, bo tutaj napisaliśmy, że może tak zrobić
         //ale domyślnie pewnie też tak zrobi.
@@ -185,4 +185,4 @@ function program5() {
     server.listen(3000, 'localhost'); // można też podać localhost
 }
 
-program5()
+//program5()
