@@ -1,0 +1,183 @@
+/*
+Zaawansowany routing
+Routing - kierowanie czegoś gdzieś. 
+Parametry ścieżek: dowolne dane przesyłane w dowolnym miejscu.
+
+/stala/sciezka/:zmienna
+/stala/inna/sciezka/:zmienna1/:zmienna2
+
+Kilka reguł: nazwy jak zmiennych, odzielone od pozostałych elementów ścieżki za pomocą /,. lub -
+*/
+const express = require('express')
+
+function program1() {
+    const app = express();
+
+    app.get('/', (req, res)=>{
+        res.send('Hi');
+    })
+
+    app.listen(3000);
+}
+
+//program1()
+
+const express = require('express')
+
+function program2() {
+    const app = express();
+
+    app.get('/article/:articleName', (req, res)=>{
+        res.send('Treść artykułu');
+    })
+
+    app.get('/article/new', (req, res)=>{
+        res.send('Hello new user');
+    })
+    /*
+    Teraz jak wpiszemy: 
+    localhost:3000/article/jakikolwieksdfsdf => dostaniemy "treść artykułu"
+    localhost:3000/article/new => też dostaniemy "treść artykułu"
+    bo idzie z góry do dołu w kolejności zadeklarowania. Jak jest to kolejnego już nie wejdzie. 
+    Można odwrócić kolejność aby najbardziej skomplikowane były na górze
+    */
+
+    app.listen(3000);
+}
+
+//program2()
+
+/*
+Serwery często robią tak, że tytuł czy inna część urla są zbędne z punktu widzenia web serwera. Są tam z uwagi na seo, lub 
+ux. Na interii np możemy zmiksować tytuł a i tak wejdzie tam gdzie trzeba. Liczy się tylko id.
+Poniżej article name jest opcjonalny - pytajnik. 
+*/
+
+function program3() {
+    const app = express();
+
+    app.get('/article/:id/articleName?', (req, res)=>{
+        res.send('Treść artykułu');
+    })
+
+    /*
+    Serwer zadziała na obydwa adresy:
+    ...article/123
+    ...article/123/To-jest-tytuł-artykułu/
+    */
+
+    app.listen(3000);
+}
+
+//program3()
+
+/*
+Odbieranie parametrów
+Wszystkie pzesłane parametry są dostępne w obiekcie req.params pod nazwami takimi jak ustaliliśmy - ale bez dwukropka
+
+Np:
+/article/123/Tytuł
+Stworzy obiekt req.params:
+
+{
+    id: '123',
+    title: "Tytuł",
+}
+*/
+
+function program4() {
+    const app = express();
+
+    app.get('/article/:id/articleName?', (req, res) => {
+        console.log(req.params);
+        res.send(`Treść artykułu ${req.params.id}`);
+    })
+
+    /*
+    Serwer zadziała na obydwa adresy:
+    ...article/123
+    ...article/123/To-jest-tytuł-artykułu/
+    Nazwy parametrów bierze z naszej deklaracji app.get, z tego jak sami kolejno je nazwaliśmy
+    */
+
+    app.listen(3000);
+}
+
+//program4()
+
+/*
+Obiekt response
+
+Koncepcja podobna do tej z obiektem res / response w Node.js - otrzymujemy 
+jako drugi parametr w callbacku każdego zdarzenia.
+Najczęściej przyjęło się nazywać ten parametr res.
+Jest on typu Response o reprezentuje każdą odpowiedź na zapytanie HTTP.
+Sprawdźmy jakie daje możliwości. 
+*/
+
+/*
+res.write(), res.end()
+
+Pamiętasz korzystanie z res.write() o res.end(), aby wyświetlić coś w czystym serwerze HTTP Node?
+
+Sposoby te działają również w Express. Nie jest to część Expressa, metody są faktycznie przekierowane
+bezpośrednio do serwera Node.js, który znajduje się "pod spodem" Expressu.
+
+app.get('/', (req,res) => {
+    res.write('Test!);
+    res.end();
+})
+
+Warto jednak korzystać z res.send('treść') bo jest szybszy
+res.send() robi wiele rzeczy: 
+- Ustawia nagłówek Content-Type automatycznie, w zależności co wyślemy. 
+- Ustawia nagłówek Content-Length automatycznie;
+- Ustawia nagłówki związane z podstawowym cachingiem;
+- Konwertuje dane jeżeli to potrzebne;
+- Przesyła dane;
+- Kończy połączenie;
+
+Dane wejściowe:
+res.send(dane_wejściowe)
+Możemy przesłać:
+- string - text/html i przesyłanie tekstu
+- Buffer - application/octet-stream i przesyłanie czystych danych
+- arra/Object - application/json i zakodowanie danych jako JSON
+
+res.json()
+Ponieważ zdecydowana większość API jakie się tworzy otrzymuje i przesyła JSON-a
+Express ma wbudowaną metodę pomocniczą do wysyłania JSON-a. 
+
+Jest to res.json()
+Działa podobnie jak res.send(), z tym że zawsze wysyła JSONa i ustawia 
+Content-Type na application/json
+
+res.json() vs res.send()
+Jsona powinno się używać chcąc przesłać jsona, bo:
+1) Zawsze otrzymamy jsona, niezależnie od danych wejściowych. Dla res.send() przy stringu nie uzyskasz
+JSON-a!
+2) Są dostępne pewne specjalne opcje w Express.js dla res.json - m.in. pozwalające ładniej go formatować. 
+*/
+
+/*
+Przekierowania
+Czasami może się zdarzyć, że chcesz przekierować danego klienta na inny adres - w Twoim systemie lub
+zewnętrzny. Można to osiągnąć przesyłając odpowiedni kod statusu HTTP oraz odpowiedni nagłówek 
+odpowiedzi Location
+
+Ekspress korzysta w tym celu z res.location() jako parametr podajemy nowy adres. 
+*/
+
+function program5() {
+    const app = express();
+
+    app.get('/article/:id/articleName?', (req, res) => {
+        res.location('https://onet.pl');
+        res.end();
+    })
+/*
+Jeszcze dużo dodatkowych ustawień, żeby to zadziałało. Więc może coś szybszego...
+*/
+
+    app.listen(3000);
+}
