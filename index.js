@@ -176,8 +176,36 @@ function program5() {
         res.end();
     })
 /*
-Jeszcze dużo dodatkowych ustawień, żeby to zadziałało. Więc może coś szybszego...
+Jeszcze dużo dodatkowych ustawień, żeby to zadziałało. Więc może coś szybszego... Tym czymś jest res redirect
 */
 
     app.listen(3000);
 }
+
+function program6() {
+    const app = express();
+
+    app.get('/article/:id/articleName?', (req, res) => {
+        // res.redirect('https://onet.pl');
+        // Możemy też chcieć podać inny status odpowiedzi:
+        res.redirect(301, 'https://onet.pl');
+        res.end();
+    })
+
+    app.listen(3000);
+}
+
+/*
+Kody:
+301- przekierowanie trwałe . Przeglądarka i wyszukiwarka powinny to zapamiętać
+302 - przekierowanie niestałe
+303 - zobacz gdzie indziej, tak jak 302, ale używane przy metodzie innej niż get, jednak mające przekierować na 
+metodę get. 
+307 - przekierowanie tymczasowe - podobne do 302, ale urzywane przy metodzie http innej niż get. 
+
+Ścieżki w res.location()
+1. Absolutne adresy URL;
+2. Wewnętrzne ścieżki
+3. Ścieżki względne z użyciem ...
+4. "back" odniesienie do nagłóna Referer lub ścieżki głównej /. res.redirect('back)
+*/
