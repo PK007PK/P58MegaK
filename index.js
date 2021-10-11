@@ -181,6 +181,7 @@ function program6() {
         res.send(await readFile('name.txt', 'utf8'));
     })
     app.get('/name/check', async (req,res)=>{
+        //sztuczka, sprawdzamy czy istnieje w ten sposób
         try {
             await readFile('name.txt');
             res.send('There is a name saved.');
