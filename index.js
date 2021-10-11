@@ -137,3 +137,36 @@ res.set({
     "Content-Length": '123,
 });
 */
+
+
+/*
+resheadersSent
+Właściwość. Zawiera informację czy nagłówki pozsały przesłane. 
+Pamiętaj - przy odpowiedzi napierw ustawiaj nagłówki, potem treść 
+odpowiedzi. Właśnie po to jest ta wartość - powie Ci czy nagłówki
+zostały już przesłane, a więc czy teraz można wysyłać wyłącznie
+treść. 
+*/
+
+/*
+res.cookies()
+Ciasteczka są bardzo ważną częścią sieci. Pozwalają zapamiętać pewne
+krótkie informacje - jak identyfikatory, czy informację na temat 
+bycia zalogowanym - na urządzeniu klienta. 
+Ustawianie ciastek sprowadza się do ustawiania odpowiednich 
+nagłówków. Zapamiętanie ich może nie być proste. 
+
+Ciastko jest nagłówkiem. Musi zostać wysłane przed treścią. 
+*/
+
+function program6() {
+    const app = express();
+    app.get('/', (req,res)=>{
+        res.cookie('ciastko': 'czekoladowe');
+        res.send('Hello world');
+    })
+
+    app.listen(3000);
+}
+
+//program6()
