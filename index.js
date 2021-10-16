@@ -183,3 +183,18 @@ podać dwie liczby.
 Powysłaniu formularza powinieneś sprawdzić, czy liczba B jest dzielnikiem liczby a.
 i wyświetlić odpowiednią informację w przeglądarce użytkownika. 
 */
+
+/*
+Zadanie 3
+Stworzyć aplikację która ma pliki statyczne serwowane ze ścieżku ./public/. Na stronie głównej wyświetlaj formularz,
+w którym można podać imię. 
+Oprócz tego w aplikacji mają być 3 ścieżki:
+'/cookie/set' - tu przesyłany jest formularz; Zapamiętuje ona w ciasteczku podane imię i 
+wyświetla "Zapisano imię". Niech imię będzie wyświetlane nawet po restarcie
+przegl;ądarki i Twojej plaikacji - na min miesiąc. 
+
+'/cookie/show' - wyświetla ona wcześniej zapamiętanie imię
+'/cookie/check' - wyświetla info, czy imię zostało zapisane w ciasteczku
+czy nie
+Podpowiedź: jeżeli nie ma ciasteczka to odczytasz je jako undefined;
+*/
