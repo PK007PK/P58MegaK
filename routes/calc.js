@@ -4,8 +4,10 @@ const calcRouter = express.Router();
 
 calcRouter
     .post('/check', (req, res) => {
-        console.log(req.body);
-        res.json({ok: true})
+        const {numberA, numberB} = req.body;
+        if (numberA % numberB === 0) {
+            res.json({divider: true})
+        } else res.json({divider: false})
     })
 
 
