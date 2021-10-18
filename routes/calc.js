@@ -5,13 +5,13 @@ const calcRouter = express.Router();
 calcRouter
     .post('/check', (req, res) => {
         const {numberA, numberB} = req.body;
-        let answer;
+        let divider;
         if (numberA % numberB === 0) {
-            answer = {divider: true};
+            divider = true;
         } else {
-            answer = {divider: false};
+            divider = false;
         }
-        res.json(answer);
+        res.json({divider});
     })
 
 
