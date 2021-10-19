@@ -1,0 +1,27 @@
+{
+  "name": "p58megakex",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "cookie": "^0.4.0",
+    "cookie-parser": "^1.4.5",
+    "cookie-signature": "^1.0.6",
+    "express": "^4.17.1",
+    "express-rate-limit": "^5.5.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PK007PK/P58MegaK.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PK007PK/P58MegaK/issues"
+  },
+  "homepage": "https://github.com/PK007PK/P58MegaK#readme"
+}
