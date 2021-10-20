@@ -1,5 +1,6 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
+const hbs = require('express-handlebars');
 const { cookieRouter } = require('./routes/cookie');
 
 function program1() {
@@ -9,8 +10,13 @@ function program1() {
     app.use(cookieParser());
     app.use(express.urlencoded({
         extended: true,
-    })); // to pozwoli odczytać ten formularz. Używamy tylko wtedy, kiedy mamy tradycyjny formularz jak w tym htmlu
+    })); 
+    app.engine('.hbs', hbs({extname: '.hbs'})); //wskazujemy, że będziemy korzystać z silnika widoków
+    app.set('view engine', '.hbs');
     app.use('/cookie', cookieRouter);
+    app.get('/hi', (req,res) => {
+        res.render('home');
+    })
     app.listen(3000);
 }
 program1()
