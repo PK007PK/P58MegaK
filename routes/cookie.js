@@ -10,15 +10,9 @@ cookieRouter
             .cookie('name', name, {
                 maxAge: 1000 * 60 * 60 * 24 * 30,
             })
-            .send(`
-            <!DOCTYPE html>
-            <html>
-                <body>
-                    <h1>Title</h1>
-                    <p>Zapisano imię</p>
-                </body>
-            </html>
-            `);
+            .render('cookie-set', {
+                name,
+            });
     })
     .get('/show', (req,res)=>{
         console.log(req.cookies);

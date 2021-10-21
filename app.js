@@ -15,7 +15,14 @@ function program1() {
     app.set('view engine', '.hbs');
     app.use('/cookie', cookieRouter);
     app.get('/hi', (req,res) => {
-        res.render('home');
+        res.render('home', {
+            firstName: "Testowa osoba",
+            person: {
+                age: 12,
+                sex: "male"
+            },
+            dates: ['1990','2000'],
+        });
     })
     app.listen(3000);
 }
