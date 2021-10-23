@@ -1,1 +1,16 @@
-<h1>Hello</h1>
+<h1>Configure Your cookie</h1>
+<h2>Select cookie base</h2>
+
+{{#each bases}}
+{{!-- this.0 jest specyficzne dla hbs. Chcemy się dostać po 
+indeksie do tablicy --}}
+    <a href="/configurator/select-base/{{this.[0]}}">Select {{this.[0]}} for {{this.[1]}} PLN</a> 
+{{/each}}
+<h2>Select your favorite addons</h2>
+{{#each addons}}
+{{!-- this.0 jest specyficzne dla hbs. Chcemy się dostać po 
+indeksie do tablicy --}}
+    <a href="/configurator/add-addon/{{this.[0]}}">Select {{this.[0]}} for {{this.[1]}} PLN</a> 
+{{/each}}
+
+{{>cookie-preview}}

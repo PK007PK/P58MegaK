@@ -1,0 +1,9 @@
+{{!-- <div class="cookie-preview" style="background: url('/assets/images/chocolate.png'),
+    url('/assets/images/empty-{{cookie.base}}.png')"></div> --}}
+
+{{!-- Zamieniamy powyższe. W pewnym sensie powstaje destrukturyzacja cookie --}}
+
+{{#with cookie}} 
+    <div class="cookie-preview" style="background: {{#each addons}}url('/assets/images/{{this}}.png'),{{/each}}url('/assets/images/chocolate.png'),
+        url('/assets/images/empty-{{base}}.png')"></div>
+{{/with}}
