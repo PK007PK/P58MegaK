@@ -4,7 +4,7 @@
     {{#each cookie.addons}}
     {{!--  Za dużo tych różnych addonsów i się z numi hdb gubi. Tak wskazujemy, że chodzi 
     nam o addonsy z kontekstu głównego: @root.addons  --}}
-        <li>Addon: {{this}} - {{pricify (findPrice @root.addons this)}} PLN</li>
+        <li>Addon: {{this}} - {{pricify (findPrice @root.addons this)}} PLN <a href="./configurator/delete-addon/{{this}}">Delete</a></li>
     {{/each}}
 </ul>
 <p><strong>Total of {{pricify sum}} PLN</strong></p>

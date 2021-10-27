@@ -13,7 +13,9 @@ indeksie do tablicy --}}
 {{#each addons}}
 {{!-- this.0 jest specyficzne dla hbs. Chcemy się dostać po 
 indeksie do tablicy --}}
-    <a href="/configurator/add-addon/{{this.[0]}}">Select {{this.[0]}} for {{this.[1]}} PLN</a> 
+    {{#if (isNotInArray @root.cookie.addons this.[0])}}
+        <a href="/configurator/add-addon/{{this.[0]}}">Select {{this.[0]}} for {{this.[1]}} PLN</a> 
+    {{/if}}
 {{/each}}
 
 {{>cookie-preview}}

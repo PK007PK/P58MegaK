@@ -1,5 +1,6 @@
 const handlebarsHelpers = {
     upper: str => str.toUpperCase(),
+
     findPrice: (entries, selectedItem) => {
         const found = entries.find(el => el[0] === selectedItem);
 
@@ -10,7 +11,10 @@ const handlebarsHelpers = {
         const [, price] = found;
         return price;
     },
+
     pricify: price => price.toFixed(2),
+
+    isNotInArray: (array, element) => !array.includes(element),
     
 }
 

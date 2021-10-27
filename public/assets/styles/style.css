@@ -2,3 +2,8 @@
   width: 601px;
   height: 640px;
 }
+
+.error {
+  color: red;
+  font-weight: bold;
+}
