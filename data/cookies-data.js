@@ -1,4 +1,4 @@
-const COOKIE_BASES = {
+const COOKIE_BASES = { //Wielkie litery żeby podkreślić, że te dane to stałe stałe, najstałsze
     light: 5,
     dark: 5,
 };

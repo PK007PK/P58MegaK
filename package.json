@@ -4,12 +4,9 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "cookie": "^0.4.0",
     "cookie-parser": "^1.4.5",
-    "cookie-signature": "^1.0.6",
     "express": "^4.17.1",
-    "express-handlebars": "^5.3.4",
-    "express-rate-limit": "^5.5.0"
+    "express-handlebars": "^5.3.4"
   },
   "scripts": {
     "start": "npx nodemon index.js"
