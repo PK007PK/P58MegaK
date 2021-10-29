@@ -1,16 +1,17 @@
 <h1>Configure Your cookie</h1>
 
 <h2>{{upper "Select cookie base"}}</h2>
-{{findPrice addons "honey"}}
+{{findPrice allAddons "honey"}}
 
-{{#each bases}}
+{{#each allBases}}
 {{!-- this.0 jest specyficzne dla hbs. Chcemy się dostać po 
 indeksie do tablicy --}}
     <a href="/configurator/select-base/{{this.[0]}}">Select {{this.[0]}} for {{this.[1]}} PLN</a> 
 {{/each}}
 
 <h2>{{upper "Select your favorite addons"}}</h2>
-{{#each addons}}
+
+{{#each allAddons}}
 {{!-- this.0 jest specyficzne dla hbs. Chcemy się dostać po 
 indeksie do tablicy --}}
     {{#if (isNotInArray @root.cookie.addons this.[0])}}
