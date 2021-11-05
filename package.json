@@ -19,6 +19,7 @@
   "homepage": "https://github.com/PK007PK/P58MegaK#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "express-handlebars": "^5.3.4"
+    "express-handlebars": "^5.3.4",
+    "uuid": "^8.3.2"
   }
 }

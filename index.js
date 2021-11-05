@@ -18,7 +18,10 @@ W poprzednim zadaniu złamaliśmy praktycznie wszystkie zasady resta...
 
 const express = require('express');
 const hbs = require('express-handlebars');
-const { clientRouter } = require('./routers/client');
+const {clientRouter} = require('./routers/client');
+const {homeRouter} = require('./routers/home');
+const {db} = require('./utils/db');
+
 
 const app = express();
 app.use(express.urlencoded({
@@ -32,7 +35,11 @@ app.engine('.hbs', hbs({
 app.set('view engine', '.hbs');
 
 
+app.use('/', homeRouter)
 app.use('/client', clientRouter)
+app.get('/test', (req,res) => {
+    res.send(JSON.stringify(db.getAll()));
+})
 
 app.listen(3000, 'localhost', () => console.log("Listening on http://localhost:3000"))
 
