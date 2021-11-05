@@ -17,8 +17,12 @@ class Db {
     }
 
     create(obj) {
-        this._data.push({id: uuid(), ...obj});
+        const id = uuid()
+        this._data.push({
+            id, 
+            ...obj});
         this._save();
+        return id;
     }
 
     getAll() {

@@ -1,3 +1,1 @@
-[
-    {"id": "123","name":"Test12","mail":"a@b.c", "notes":"", "nextContactAt": "Tomorrow"},
-    {"id": "124","name":"Tesssst12","mail":"a@bsss.c","notes":"", "nextContactAt": "sdfsdf"}]
+[{"id":"123","name":"Test12","mail":"a@b.c","notes":"","nextContactAt":"Tomorrow"},{"id":"8a2b865d-7f2e-4156-a470-18e867c65a4f","mail":"1@2.3","name":"Gacek","nextContactAt":"2021-11-20","notes":"Ojojoj"},{"id":"b9023a4e-1e4c-47bf-8365-016830e099f4","mail":"das@as.pl","name":"aasd","nextContactAt":"2021-11-26","notes":"asd"},{"id":"43d75b33-009d-4c25-ad66-83fde4ccefbf","mail":"krasny.piotr@gmail.com","name":"Elżbieta Krasnyyy","nextContactAt":"2021-11-04","notes":"zdzsd"}]

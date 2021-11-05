@@ -30,7 +30,7 @@
                 </td>
                 <td>
                     <a href="/client/{{this.id}}">Szczegóły</a>
-                    <form method="DELETE" action="/client/{{this.id}}">
+                    <form method="POST" action="/client/{{this.id}}?_method=DELETE">
                         <button type="submit">Usuń</button>
                     </form>
                 </td>
@@ -38,3 +38,7 @@
         {{/each}}
     </thead>
 </table>
+
+<form method="GET" action="/client/form/add">
+    <button type="submit">Dodaj nowego klienta</button>
+</form>
