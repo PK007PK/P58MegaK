@@ -23,6 +23,7 @@ clientRouter
     .delete('/:id', (req,res)=>{
         res.send('Usuń');
     })
+    
 
 module.exports = {
     clientRouter,
