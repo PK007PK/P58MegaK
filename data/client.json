@@ -1,1 +1,3 @@
-[{"name":"Test12","mail":"a@b.c"},{"name":"Tesssst12","mail":"a@bsss.c"}]
+[
+    {"id": "123","name":"Test12","mail":"a@b.c", "notes":"", "nextContactAt": "Tomorrow"},
+    {"id": "124","name":"Tesssst12","mail":"a@bsss.c","notes":"", "nextContactAt": "sdfsdf"}]

@@ -1,15 +1,20 @@
 const express = require('express');
+const { db } = require('../utils/db');
 
 const clientRouter = express.Router();
 
 clientRouter
 
     .get('/', (req,res)=>{
-        res.send('Pobierz wszystkie');
+        res.render('client/list-all', {
+            clients: db.getAll(),
+        })
     })
 
-    .get('/:id', (req,res)=>{
-        res.send('Pobierz pojedyncze');
+    .get('/:id', (req,res) => {
+        res.render('client/one', {
+            client: db.getOne(req.params.id),
+        })
     })
 
     .post('/', (req,res)=>{
@@ -23,7 +28,7 @@ clientRouter
     .delete('/:id', (req,res)=>{
         res.send('Usuń');
     })
-    
+
 
 module.exports = {
     clientRouter,
