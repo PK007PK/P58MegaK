@@ -16,17 +16,16 @@ function program1() {
     }
     readFilesAndDirectories();
 }
-//program1()
+// program1()
 
 function program2() {
     const SOURCE_FILE_NAME = './data/input1.json';
     const DESTINATION_FILE_NAME = './data/sum.txt';
 
-    (async ()=>{
+    (async () => {
         try {
-            const data = JSON.parse(await readFile(SOURCE_FILE_NAME, 'utf8')).map(item=>Number(item)).reduce((a,b)=>a+b);
+            const data = JSON.parse(await readFile(SOURCE_FILE_NAME, 'utf8')).map(item=>Number(item)).reduce((a,b) => a+b);
             await appendFile(DESTINATION_FILE_NAME, JSON.stringify(data), 'utf8');
-
         } catch(err) {
             console.log('Oh no!', err)
         }
@@ -36,11 +35,12 @@ function program2() {
 
 function program3() {
     const BASE_DIR = './';
-    (async ()=>{
+    (async () => {
         try {
             const list = await readdir(BASE_DIR,  {
                 withFileTypes: false,
             });
+            console.log(list);
             for (const item of list) {
                 const itemDirectory = `${BASE_DIR}${item}`
                 const fileStat = await stat(itemDirectory);
@@ -59,7 +59,7 @@ async function program4() {
     const BASE_DIR = './';
 
     async function checkDir(dir) {
-        const list =  await readdir(dir);
+        const list = await readdir(dir);
         const improvedList = [];
         for (const item of list) {
             const fileStat = await stat(`${dir}${item}`);
@@ -87,4 +87,4 @@ async function program4() {
     console.log(testArr);
 }
 
-program4()
+// program4()
