@@ -149,15 +149,17 @@ function program9() {
         if (error) {
             console.log(error);
         } else {
-        const numberFromFile = Number(data);
-        appendFile(FILE_NAME, `\n${numberFromFile * 2}`, 'utf8', error => {
-            if (error) {
-                console.log(error);
-            } else {
-                console.log('File is saved');
+            const numberFromFile = Number(data);
+            appendFile(FILE_NAME, `\n${numberFromFile * 2}`, 'utf8', error => {
+                if (error) {
+                    console.log(error);
+                } else {
+                    console.log('File is saved');
+                }
             })
+            
         }
-    });
+    }
 }
 
 /*
@@ -171,7 +173,6 @@ function program10() {
         const list = await readdir('.');
         console.log(list);
     }
-
     readFilesAndDirectories();
 }
 
@@ -193,27 +194,6 @@ const files = await fs.promises.readdir(-ścieżka-);
 
 const { readFile, readdir, stat } = require('fs').promises;
 
-function program11() {
-    async function readFilesAndDirectories() {
-        const list = await readdir('./data', {
-            withFileTypes: true,
-        });
-
-        for (const fileName of list) {
-            console.log(fileName)
-            const fileContent = await readFile(`./data/${fileName}`, 'utf8');
-            const fileStat = await stat(`./data/${fileName}`);
-            console.log(fileContent);
-            console.log(fileStat.isFile());
-        }
-    }
-    readFilesAndDirectories();
-}
-
-/*
-    Drobne błędy przpisywania powyżej, moja przeróbka w WS:
-*/
-
 const { readFile, readdir, stat } = require('fs').promises;
 
 function program12() {
@@ -233,7 +213,7 @@ function program12() {
     readFilesAndDirectories();
 }
 
-program12()
+//program12()
 
 /*
     Nie jest nigdy zalecane sprawdzanie istnienia pliku przed 
@@ -264,7 +244,6 @@ const {W_OK, R_OK} = require('fs').constants;
 
 function program14() {
     const FILE_NAME = './data/hello-world.txt';
-
     (async () => {
         try {
             () => {
@@ -291,6 +270,7 @@ function program14() {
 const { readFile } = require('fs').promises;
 
 function program15() {
+
 const FILE_NAME = './data/hello-world.txt';
 
     (async () => {
