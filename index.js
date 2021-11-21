@@ -19,12 +19,13 @@ const express = require('express');
 
 function program1() {
     const app = express();
-    app.get('/', (req,res)=>{
+    app.get('/', (req,res) => {
         res.sendFile('obraz.bmp')
     })
 
     app.listen(3000);
 }
+
 /*
     Nie zadziałała. 
 
@@ -40,15 +41,16 @@ function program1() {
     Zaprojektowano sendFile tak, żeby trzeba było jasno okreśłić ścieżkę.
     To ze względów bezpieczeństwa. 
 */
-const { join }= require('path');
+
+const { join } = require('path');
 
 function program2() {
     const app = express();
-    app.get('/', (req,res)=>{
+    app.get('/', (req,res) => {
         res.sendFile(join(__dirname,'obraz.gif'));
     })
 
-    app.listen(3000);
+    app.listen(3000, () => console.log("http:/localhost:3000"));
 }
 
 //program2()
@@ -62,38 +64,40 @@ folder.
 
 function program3() {
     const app = express();
-    app.get('/', (req,res)=>{
-        res.sendFile('nazwaPliku' {
+    const nazwaPliku = 'obraz.gif';
+
+    app.get('/', (req,res) => {
+        res.sendFile(nazwaPliku, {
             root: __dirname,
         });
     })
 
-    app.listen(3000);
+    app.listen(3000, () => console.log("http:/localhost:3000"));
 }
 
-//program3()
+program3()
 
 /*
 Idealnie będzie tak: 
 */
 
-function program4() {
-    const app = express();
-    app.get('/', (req,res)=>{
-        res.sendFile('nazwaPliku' {
-            root: join( __dirname,'files'),
-            headers: {
-                'X-Best-JS-Information': "MegaK",
-            },
-            dotfiles:"xyz", //chodzi o pliki zaczynające się od . 
-            //Są domyślnie ukryte. Tu możemy doprecyzować naszą intencję
-            //odnośnie ukrytych plików. allow oznacza że nawet pliki z kropką
-            //moźemy przesyłać. 
-        });
-    })
+// function program4() {
+//     const app = express();
+//     app.get('/', (req,res)=>{
+//         res.sendFile('nazwaPliku' {
+//             root: join( __dirname,'files'),
+//             headers: {
+//                 'X-Best-JS-Information': "MegaK",
+//             },
+//             dotfiles:"xyz", //chodzi o pliki zaczynające się od . 
+//             //Są domyślnie ukryte. Tu możemy doprecyzować naszą intencję
+//             //odnośnie ukrytych plików. allow oznacza że nawet pliki z kropką
+//             //moźemy przesyłać. 
+//         });
+//     })
 
-    app.listen(3000);
-}
+//     app.listen(3000);
+// }
 
 //program4()
 
@@ -109,17 +113,17 @@ Należy pamiętać o dodaniu res.end()
 Obraz się nie pokaże, tylko pobierze się jako załącznik
 */
 
-function program5() {
-    const app = express();
-    app.get('/', (req,res)=>{
-        res.attachment('obraz.gif' {
-            root: join( __dirname,'files'),
-        });
-        res.end(); //musi być
-    })
+// function program5() {
+//     const app = express();
+//     app.get('/', (req,res)=>{
+//         res.attachment('obraz.gif' {
+//             root: join( __dirname,'files'),
+//         });
+//         res.end(); //musi być
+//     })
 
-    app.listen(3000);
-}
+//     app.listen(3000);
+// }
 
 //program5()
 
@@ -159,14 +163,14 @@ nagłówków. Zapamiętanie ich może nie być proste.
 Ciastko jest nagłówkiem. Musi zostać wysłane przed treścią. 
 */
 
-function program6() {
-    const app = express();
-    app.get('/', (req,res)=>{
-        res.cookie('ciastko': 'czekoladowe');
-        res.send('Hello world');
-    })
+// function program6() {
+//     const app = express();
+//     app.get('/', (req,res)=>{
+//         res.cookie('ciastko': 'czekoladowe');
+//         res.send('Hello world');
+//     })
 
-    app.listen(3000);
-}
+//     app.listen(3000);
+// }
 
 //program6()
