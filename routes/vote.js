@@ -1,5 +1,5 @@
 const express = require('express');
-const {IpRestrict} = require('../utils/ip-restrict')
+const { IpRestrict } = require('../utils/ip-restrict')
 
 const voteRouter = express.Router();
 
@@ -12,11 +12,11 @@ const ipRestrict = new IpRestrict();
 
 voteRouter
 //ten check musi być pierwszy żeby się nie dodał jako głos. 
-.get('/check', async (req,res)=>{
-    const info = Object.entries(votes).map(ar=>`Votes on ${ar[0]}: ${ar[1]}`).join('<br>');
+.get('/check', async (req,res) => {
+    const info = Object.entries(votes).map( ar => `Votes on ${ar[0]}: ${ar[1]}`).join('<br>');
     res.send(info);
 })
-.get('/:voteName', async (req,res)=>{
+.get('/:voteName', async (req,res) => {
     if (!ipRestrict.check(req.ip)) {
         res.status(403).send("Głos oddano już wcześniej");
         return;
