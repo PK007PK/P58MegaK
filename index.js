@@ -11,7 +11,7 @@ function program1() {
         res.send('Hello world');
     })
 
-    app.listen(3000);
+    app.listen(3000, () => console.log("http://localhost:3000"));
 }
 
 //program1();
@@ -37,7 +37,7 @@ dostępu do ciastka.
 
 function program2() {
     const app = express();
-    app.get('/', (req,res)=>{
+    app.get('/', (req,res) => {
         res.cookie('cookie1', 'XXXC', {
             path: "/", //ma istnieć na każdej podstronie;
             domain: "xyz.mydomain.com", //Tylko ta domena odczyta ciastko
@@ -55,13 +55,10 @@ function program2() {
             domain: "xyz.mydomain.com", 
             expires: new Date(2022, 11, 31),  
             maxAge: 1000 * 60 * 60 * 24 * 365,
-            
-            // 
         });
         res.send('Hello world');
     })
-
-    app.listen(3000);
+    app.listen(3000, () => console.log("http://localhost:3000"));
 }
 
 //program2();
@@ -78,7 +75,7 @@ podać drugi argument - identyczny z res.cookie();
 
 function program3() {
     const app = express();
-    app.get('/', (req,res)=>{
+    app.get('/', (req,res) => {
         res.cookie('cookie1', 'XXXC', {
             path: "/", //ma istnieć na każdej podstronie;
             domain: "xyz.mydomain.com", //Tylko ta domena odczyta ciastko
@@ -93,11 +90,11 @@ function program3() {
         });
         res.send('Hello world');
     })
-    app.get('/logout', (req,res)=>{
+    app.get('/logout', (req,res) => {
         res.clearCookie('cookie1');
         res.send('Loged out');
     })
-    app.listen(3000);
+    app.listen(3000, () => console.log("http://localhost:3000"));
 }
 
 //program3();
@@ -115,18 +112,18 @@ parseInt(), żeby zmienić je w liczby.
 
 function program4() {
     const app = express();
-    app.get('/:numA/:numB', (req,res)=>{
+    app.get('/:numA/:numB', (req,res) => {
         console.log(req.params);
         const {numA, numB} = req.params;
         const sum = Number(numA) + Number(numB);
         //res.send(sum); to da błąd. Bo musimy wysłać tekst
         res.send(`${sum}`); 
     })
-    app.get('/logout', (req,res)=>{
+    app.get('/logout', (req,res) => {
         res.clearCookie('cookie1');
         res.send('Loged out');
     })
-    app.listen(3000);
+    app.listen(3000, () => console.log("http://localhost:3000"));
 }
 
 /*
@@ -145,22 +142,24 @@ function program5() {
     const app = express();
 
     let name;
-    app.get('/name/set/:name', (req,res)=>{
+    app.get('/name/set/:name', (req,res) => {
         name = req.params.name;
         res.send(name);
     })
-    app.get('/name/show', (req,res)=>{
+    app.get('/name/show', (req,res) => {
         res.send(name);
     })
-    app.get('/name/check', (req,res)=>{
+    app.get('/name/check', (req,res) => {
         if (name) {
             res.send('There is a name saved.');
         } else {
             res.send('There is no name.');
         }
     })
-    app.listen(3000);
+    app.listen(3000, () => console.log("http://localhost:3000"));
 }
+
+//program5()
 
 //Dodajemy zapisywanie do pliku
 
@@ -170,17 +169,17 @@ function program6() {
     const app = express();
 
     let name;
-    app.get('/name/set/:name', async (req,res)=>{
+    app.get('/name/set/:name', async (req,res) => {
         const name = req.params.name;
         await writeFile('name.txt', name, 'utf8');
         res.send(name);
     })
-    app.get('/name/show', async (req,res)=>{
+    app.get('/name/show', async (req,res) => {
         /* const name = await readFile('name.txt', 'utf8');
         res.send(name); lub szybciej: */
         res.send(await readFile('name.txt', 'utf8'));
     })
-    app.get('/name/check', async (req,res)=>{
+    app.get('/name/check', async (req,res) => {
         //sztuczka, sprawdzamy czy istnieje w ten sposób
         try {
             await readFile('name.txt');
