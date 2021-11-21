@@ -10,32 +10,35 @@ app.use(jakisMiddleware());
 przed kodem właściwym
 */
 const express = require('express');
+
 function program1() {
     const app = express();
 
     app.use(middleware1());
     let name;
-    app.get('/name/set/:name', (req,res)=>{
+    app.get('/name/set/:name', (req,res) => {
         name = req.params.name;
         res.send(name);
     })
-    app.get('/name/show', (req,res)=>{
+    app.get('/name/show', (req,res) => {
         res.send(name);
     })
-    app.get('/name/check', (req,res)=>{
+    app.get('/name/check', (req,res) => {
         if (name) {
             res.send('There is a name saved.');
         } else {
             res.send('There is no name.');
         }
     })
-    app.listen(3000);
+    app.listen(3000, () => console.log("http://locahost:3000"));
 }
+
+//program1()
 
 /*
 Aby móc odbierać i z łatwością odczytywać dane wejściowe od
-klienta, które są w postaci JSONa (a często tak będzie) - możemy wykorzystać wbudowany
-express middleware json.
+klienta, które są w postaci JSONa (a często tak będzie) - 
+możemy wykorzystać wbudowany express middleware json.
 
 Znajdziemy go w express.json(). Opcjonalny argument pozwala
 nam na podanie opcji - min jaka jest max wielkość JSON-a (domyślnie 100kb).
@@ -43,14 +46,11 @@ nam na podanie opcji - min jaka jest max wielkość JSON-a (domyślnie 100kb).
 Domyślne działanie jest w większości przypadków wystarczjące. Gdy dostaniemy
 zapytanie z danymi określonymi jako application/json to ten middlewart
 automatycznie rozkoduje je do danych.
-*/
 
-
-/*
 Inspomnią wysyłamy JSONa...
 */
 
-function program1() {
+function program2() {
     const app = express();
 
     app.use(express.json()); // Robimy, żeby on teraz rozumiał JSONa
@@ -65,19 +65,22 @@ function program1() {
     również jsonem:
     */
 
-    app.post('/book', (req,res)=>{
+    app.post('/book', (req,res) => {
         console.log(req.body);
-        res.send('ok');
+        // res.send('ok');
         res.json({
             text: `Hello, ${req.body.name}`,
         })
     })
 
-    app.listen(3000);
+    app.listen(3000, () => console.log("http://locahost:3000"));
 }
 
+// program2()
+
 /*
-Kolejnym middleware są pliki stsatyczne. MD plików statycznych. Już wcześniej wytsyłaliśmy sobie
+Kolejnym middleware są pliki stsatyczne. MD plików statycznych. 
+Już wcześniej wytsyłaliśmy sobie
 html, czy pojedyncze pliki graficzne. Jak łątwo się domyślić takie
 przesyłanie plików byłoby bnardzo niewygodne i zaciemniało by kod. 
 
@@ -99,14 +102,14 @@ W więszości przypadków jednak ustawienia domyślne są wystarczające
 i wystarczy wpisać: app.use(express.static());
 */
 
-function program2() {
+function program3() {
     const app = express();
     app.use(express.static('public', {
         //index: false, nie będdzie domyślnego
         //index:home.html, ...
     })); 
 
-    app.post('/book', (req,res)=>{
+    app.post('/book', (req,res) => {
         console.log(req.body);
         res.send('ok');
         res.json({
@@ -114,12 +117,12 @@ function program2() {
         })
     })
 
-    app.listen(3000);
+    app.listen(3000, () => console.log("http://locahost:3000"));
 }
 
 //http://localhost:3000/index.html 
 //http://localhost:3000 kieruje do index.html domyślnie
-//program2()
+//program3()
 
 /*
 Middleware - odczyt ciasteczek
@@ -132,24 +135,24 @@ req.cookies, a ciastka tzw podpisane pod req.signedCookies.
 
 Jest to obiekt w którym klucze to nazwy ciastek a wartości to ich wartości
 
-Klientpowinien automatycznie przesłać wszystkoe ciastka dostęne naszemu
+Klient powinien automatycznie przesłać wszystkie ciastka dostęne naszemu
 serwerowi przy każdym zapytaniu, a cookie-parser zadba byśmy mieli
 do nich dostęp.
 */
 
 const cookieParser = require('cookie-parser');
 
-function program3() {
-    const app = express();
+function program4() {
+    const app = express(); 
     app.use(express.static('public', {
         //index: false, nie będdzie domyślnego
         //index:home.html, ...
-    })); 
+    }));  
     app.use(cookieParser());
 
-    app.get('/book', (req,res)=>{
+    app.get('/book', (req,res) => { 
         console.log(req.body);
-        res.send('ok');
+        //res.send('ok');
         res.json({
             text: `Hello, ${req.body.name}`,
         })
@@ -157,11 +160,14 @@ function program3() {
         console.log(req.cookies.cookie2);
     })
 
-    app.listen(3000);
+    app.listen(3000, () => console.log("http://locahost:3000"));
 }
 
+//program4()
+
 /*
-Zadanie 1. Ankieta. Stwórz aplikację ex. Powinna ona serwować statycvznie pliki z folderu 
+Zadanie 1. Ankieta. Stwórz aplikację ex. 
+Powinna ona serwować statycvznie pliki z folderu 
 ./public/. na stronie głównem możliwe jest głosowanie w ankiecie
 Obsłuż głosowanie tak, żeby przejście do której kolwiek ścieżki /vote/yes vote/no 
 powodowało oddanie dłosu do odpowiedniej opcji. Zwróć do przzeglądarki
@@ -186,10 +192,12 @@ i wyświetlić odpowiednią informację w przeglądarce użytkownika.
 
 /*
 Zadanie 3
-Stworzyć aplikację która ma pliki statyczne serwowane ze ścieżku ./public/. Na stronie głównej wyświetlaj formularz,
+Stworzyć aplikację która ma pliki statyczne serwowane ze ścieżku ./public/. 
+Na stronie głównej wyświetlaj formularz,
 w którym można podać imię. 
 Oprócz tego w aplikacji mają być 3 ścieżki:
-'/cookie/set' - tu przesyłany jest formularz; Zapamiętuje ona w ciasteczku podane imię i 
+'/cookie/set' - tu przesyłany jest formularz; 
+Zapamiętuje ona w ciasteczku podane imię i 
 wyświetla "Zapisano imię". Niech imię będzie wyświetlane nawet po restarcie
 przegl;ądarki i Twojej plaikacji - na min miesiąc. 
 
