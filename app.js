@@ -45,7 +45,7 @@ express --no-view --git nazwa_projektu_i_folderu
 /*
 Serwer na świat vs lokalny
 Domyślnie odpalony serwer jest widoczny na świecie. 
-Możesz to zmienić. All.listen() ma drugi możliwy argument -
+Możesz to zmienić. app.listen() ma drugi możliwy argument -
 - host. Tak samo jak w module http.
 
 Ustaw hosta na localhost, a Twój serwer nie będzie dostępny z zewnątrz - 
@@ -58,9 +58,7 @@ działać wyłącznie na danym serwerze.
 app.listen(3000, 'localhost');
 lub 
 app.listen(3000, "127.0.0.1");
-*/
 
-/*
 Obciążenie, SSL, prawdziwe połączenie
 W praktyce nie stosuje się nigdy samego Node. Obsługa w nim SSL
 jest niewydajna - są lepsze rozwiązania. 
