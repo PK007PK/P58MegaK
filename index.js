@@ -49,7 +49,7 @@ function program2() {
         console.log(results);
     })()
 }
-program2()
+//program2()
 /*
 Powyższego nie wolno robić. 
 Jest to błąd bezpieczeńśtwa, tzw sql injection.
