@@ -6,7 +6,7 @@
 
 const mysql = require('mysql2/promise');
 
-const Connection = require('mysql2/typings/mysql/lib/Connection');
+// const conn = require('mysql2/typings/mysql/lib/Connection'); ??
 
 function program1() {
     (async() => {
@@ -160,6 +160,7 @@ function program5() {
             for (const car of cars) {
                 await statement.execute(Object.values(car));
             }
+            console.log("It's done");
         } finally {
             statement.close();
         }
@@ -168,3 +169,32 @@ function program5() {
 }
 
 program5()
+
+/*
+Otwieranie wielu połączeń
+Wszystko działa tak samo, tylko dajemy pool zamiast con.
+Tworzy in pulę połączeń zamiast jednego. W praktyce nie korzysta się z jednego. 
+Jest ono bardziej na potrzeby tutoriali
+Pool jest bardziej przepustowe.
+*/
+
+function program6() {
+    (async() => {
+        const pool = await mysql.createPool({
+            host: 'localhost',
+            user: 'root',
+            database: 'megakurs',
+            decimalNumbers: true,
+            namedPlaceholders: true, // trzeba tu dodać!!
+        })
+        const value = 10000;
+        const {affectedRows} = await pool.execute(
+                'UPDATE `cars` SET `price` = `price` + :myValue WHERE `price` > :myValue',
+                {
+                    myValue: value,
+                }
+            )[0];
+        console.log(affectedRows);
+    })()
+}
+//program6()
