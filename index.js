@@ -1,200 +1,31 @@
 /*
-    Sprawdźmy jak są pobierane liczby typu DECIMAL...
-    I po co nam 
-    decimalNumbers: true;
+Zadanie: 
+1. Stworzyć nowy projekt, zainstalować mysql2 i skonfigurować połączenie.
+2. W bazie danych mega_courses wykonać za pomocą kodu następujące operacje:
+- wyświetlić wszystkioe kursy jakie mamy dostępne;
+- wybieramy wszystkich kursantów (id, imię, nazwisko), którzy mają min 18 lat
+wraz z nazwami kursów na jakich są (Kursanci mogą się powtarzać, to jest ok)
+- usuwamy wszystkich kursantów, którzy są niepełnoletni i wyświetlamy ilu zostało 
+usuniętych, Korzystamy z parametrów;
+- Dodajemy nowego kursanta z kodu (korzystamy z parametrów) i wyświetlamy jego ID
 */
 
 const mysql = require('mysql2/promise');
 
-// const conn = require('mysql2/typings/mysql/lib/Connection'); ??
+function zadanie() {
+    const pool = mysql.createPool({
+        host: 'localhost',
+        user: 'root',
+        database: 'mega_courses',
+        namedPlaceholders: true, //prepared statements
+        decimalNumbers: true,
+    });
 
-function program1() {
     (async() => {
-        const conn = await mysql.createConnection({
-            host: 'localhost',
-            user: 'root',
-            database: 'megakurs',
-            decimalNumbers: true,
-        })
-       
-        const [results] = await conn.execute('SELECT * FROM `cars`');
-        console.log(results);
-       /*
-       Powyżej wszystko poszło fajnie, ale nie domyślił się że liczba
-       to liczba. Aby temu zapobiec w konfiguracji połączenia dodajemy
-       decimalNumbers: true;
-       Ale uwaga, jeżeli skorzystamy z tej opcji możemy stracić dokładność. 
-       Kiedy np zamiast prostych cen będziemy mieć jakieś dane naukowe 
-       z wieloma miejscami po przecinku to będzie problem. 
-       */
-    })()
-}
-//program1()
-
-/*
-Bezpieczeństwo: SQL Injection - jeden z najpoważniejszych błędów 
-bezpieczeństwa IT. 
-*/
-
-function program2() {
-    (async() => {
-        const conn = await mysql.createConnection({
-            host: 'localhost',
-            user: 'root',
-            database: 'megakurs',
-            decimalNumbers: true,
-        })
-        const regNo = `BSD14342`;
-        const [results] = await conn.execute('SELECT * FROM `cars` WHERE `registrationNo` = "' + regNo +'";');
-        console.log(results);
-    })()
-}
-//program2()
-/*
-Powyższego nie wolno robić. 
-Jest to błąd bezpieczeńśtwa, tzw sql injection.
-
-1) złośliwy użytkownik wstawi w regNo '"OR"" = "' - co wyświetli wszystkie samochody
-Wyświetl kiedy reg no to empty string lub kiedy emty string to empty string, 
-czyli wszystko.
-
-2) jeżeli masz multipleStatements: true oraz query zamiast execute złośliwy user:
-";DROP TABLE `cars`;SELECT"
-Poniżej jak zrobić żeby było bezpieczne. 
-W SQLa wstawiamy ? - to jest zmienna sql, on wie że tu ma miejsce na 
-zmienną, a nie na komendę. To jest chyba prepared statement
-*/
-
-function program3() {
-    (async() => {
-        const conn = await mysql.createConnection({
-            host: 'localhost',
-            user: 'root',
-            database: 'megakurs',
-            decimalNumbers: true,
-        })
-        const regNo = `BSD14342`;
-        const [results] = await conn.execute('SELECT * FROM `cars` WHERE `registrationNo` = ?;',[regNo]);
-        //Każdy kolejny pytajnik odpowiada elementowi tablicy w której powyżej jest
-        //regNo
-        console.log(results);
-    })()
-}
-//program3()
-
-/*
-Są lepsze i wygodniejsze prepared statements
-:nazwa i obiekty... Zwłaszcza kioedy używamy coś kilkukrotnie
-
-*/
-
-function program4() {
-    (async() => {
-        const conn = await mysql.createConnection({
-            host: 'localhost',
-            user: 'root',
-            database: 'megakurs',
-            decimalNumbers: true,
-            namedPlaceholders: true, // trzeba tu dodać!!
-        })
-        const value = 10000;
-        const {affectedRows} = await conn.execute(
-                'UPDATE `cars` SET `price` = `price` + :myValue WHERE `price` > :myValue',
-                {
-                    myValue: value,
-                }
-            )[0];
-        console.log(affectedRows);
-    })()
-}
-//program4()
-
-
-/*
-Prepared statement to dodatkowa wydajność. 
-MySl może raz przygotować strategię i potem aplikować ją do wielu zapytań
-Wtedy należy użyć prepare i execute
-Przykładem jest dodawanie w ten sposób wielu rekordów. 
-Np powyższe sql zrobi bardzo szybko
-*/
-
-function program5() {
-    (async() => {
-        const conn = await mysql.createConnection({
-            host: 'localhost',
-            user: 'root',
-            database: 'megakurs',
-            decimalNumbers: true,
-            namedPlaceholders: true,
-        })
-
-        const cars = [
-            {
-                registrationNo: 'AAA',
-                brand: 'AAA brandt',
-                model: 'AAA model',
-                color: 'AAA color',
-                firstRegistrationAt: '2021-12-01',
-                price: '100',
-            },
-            {
-                registrationNo: 'BBB',
-                brand: 'BBB brandt',
-                model: 'BBB model',
-                color: 'BBB color',
-                firstRegistrationAt: '2021-12-01',
-                price: '1000',
-            },
-            {
-                registrationNo: 'CCC',
-                brand: 'CCC brandt',
-                model: 'CCC model',
-                color: 'CCC color',
-                firstRegistrationAt: '2021-12-01',
-                price: '10000',
-            },
-        ]
-
-        const statement = await conn.prepare('INSERT INTO `cars` VALUES(?, ?, ?, ?, ?, ?)');
-        try {
-            for (const car of cars) {
-                await statement.execute(Object.values(car));
-            }
-            console.log("It's done");
-        } finally {
-            statement.close();
-        }
-
-    })()
+        const [res] = await pool.execute('SELECT * FROM `courses`');
+        console.log(res);
+        await pool.end();
+    })();
 }
 
-program5()
-
-/*
-Otwieranie wielu połączeń
-Wszystko działa tak samo, tylko dajemy pool zamiast con.
-Tworzy in pulę połączeń zamiast jednego. W praktyce nie korzysta się z jednego. 
-Jest ono bardziej na potrzeby tutoriali
-Pool jest bardziej przepustowe.
-*/
-
-function program6() {
-    (async() => {
-        const pool = await mysql.createPool({
-            host: 'localhost',
-            user: 'root',
-            database: 'megakurs',
-            decimalNumbers: true,
-            namedPlaceholders: true, // trzeba tu dodać!!
-        })
-        const value = 10000;
-        const {affectedRows} = await pool.execute(
-                'UPDATE `cars` SET `price` = `price` + :myValue WHERE `price` > :myValue',
-                {
-                    myValue: value,
-                }
-            )[0];
-        console.log(affectedRows);
-    })()
-}
-//program6()
+zadanie();
