@@ -24,6 +24,32 @@ class TodoRecord {
         });
         return this.id;
     }
+
+    async delete() {
+        if(!this.id) {
+            throw new Error('Todo has no ID!');
+        }
+
+        await pool.execute('DELETE FROM `todos` WHERE `id` = :id', {
+            id: this.id,
+        })
+    }
+
+    /*
+        Tworzymy metodę statyczną, która operuje na całej klasie,
+        nie na pojedynczym rekordzie. Metoda statyczna nie 
+        ma wcale dostępu do this poszczególnych obiektów.
+
+        Jeżeli robimy return w metodzie async to await można pominąć.
+    */
+    static async find(id) {
+        const [results] = await pool.execute('SELECT * from `todos` WHERE `id` = :id', {
+            id,
+        })
+        //To jest ważne, bo po tym jak go znajdzie dzięki temu że jest to
+        //instancja może skorzystać z jego metod. 
+        return new TodoRecord(results[0]);
+    }
 }
 
 module.exports = {
