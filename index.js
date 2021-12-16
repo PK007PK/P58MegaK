@@ -16,5 +16,6 @@ const {TodoRecord} = require("./records/todo/record");
     // await firstTodoItem.delete();
     const foundTodo = await TodoRecord.find('4ecad6d8-b82f-42db-8ff7-116b6d3ede27');
     console.log(foundTodo);
+    await foundTodo.delete();
     await pool.end();
 })()

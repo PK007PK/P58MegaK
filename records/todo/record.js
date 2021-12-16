@@ -5,15 +5,20 @@ const { pool } = require("../../utils/db");
 const {v4: uuid} = require('uuid');
 class TodoRecord {
     constructor(obj) {
-        if (obj.title.trim() < 5) {
+        this.id = obj.id;
+        this.title = obj.title;
+
+        this._validate();
+    }
+
+    _validate() {
+        if (this.title.trim().length < 5) {
             throw new Error('To do title should be at last 5 characters.')
         }
 
-        if (obj.title.length > 150) {
+        if (this.title.length > 150) {
             throw new Error('To do title should be at most 150 characters.')
         }
-        this.id = obj.id;
-        this.title = obj.title;
     }
 
     async insert() {
@@ -35,6 +40,17 @@ class TodoRecord {
         })
     }
 
+    async update() {
+        if(!this.id) {
+            throw new Error('Todo has no ID!');
+        }
+        this._validate();
+        await pool.execute('UPDATE `todos` SET `title` = :title WHERE `id` = :id ', {
+            title: this.title,
+            id: this.id,
+        });
+    }
+
     /*
         Tworzymy metodę statyczną, która operuje na całej klasie,
         nie na pojedynczym rekordzie. Metoda statyczna nie 
@@ -48,7 +64,11 @@ class TodoRecord {
         })
         //To jest ważne, bo po tym jak go znajdzie dzięki temu że jest to
         //instancja może skorzystać z jego metod. 
-        return new TodoRecord(results[0]);
+        return results.length === 1 ? new TodoRecord(results[0]) : null;
+    }
+
+    static async findAll() {
+        // dodać
     }
 }
 
