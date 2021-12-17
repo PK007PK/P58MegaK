@@ -25,3 +25,4 @@ robomongo.org - graficzne zarządzanie bazą mongo
 
 MongoDB Shell: Podstawowe środowisko do obsługi mongo w linii komend.
 Uruchamiamy: <Instalacyjny>/MongoDB/Server/<wersja>/bin tam wpisujemy mongo
+z
