@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "start-mongo": "cd /d C:/Program Files/MongoDB/Server/5.0/bin && mongod.exe"
+  },
+  "dependencies": {
+    "mongodb": "^4.2.2",
+    "mysql2": "^2.3.3",
+    "uuid": "^8.3.2"
+  }
+}
