@@ -1,7 +1,6 @@
 /*
 Middleware
 
-Na chwilę powrót do aplikacji w dot kształcie. 
 Posiada on metodę app.use() - jest ona dosyć zaawansowana i
 pozwala na wiele. Pozwala także rejestrować middleware.
 
@@ -9,6 +8,7 @@ Robi się to zazwyczaj takim kodem"
 app.use(jakisMiddleware());
 przed kodem właściwym
 */
+
 const express = require('express');
 
 function program1() {
@@ -53,9 +53,9 @@ Inspomnią wysyłamy JSONa...
 function program2() {
     const app = express();
 
-    app.use(express.json()); // Robimy, żeby on teraz rozumiał JSONa
-    //który przychodzi. JSONa rozkoduje teraz do obiektu JS. 
-    /*
+    app.use(express.json()); /*Robimy, żeby on teraz rozumiał JSONa
+    który przychodzi. JSONa rozkoduje teraz do obiektu JS. 
+
     Po rejestracji tego middleware w obiekcie request pojawi się nowy
     obiekt req.body - będzie zawierać rozkodowane dane, o ile 
     przybyły one w zapytaniu z danycmi o typie
@@ -81,8 +81,8 @@ function program2() {
 /*
 Kolejnym middleware są pliki stsatyczne. MD plików statycznych. 
 Już wcześniej wytsyłaliśmy sobie
-html, czy pojedyncze pliki graficzne. Jak łątwo się domyślić takie
-przesyłanie plików byłoby bnardzo niewygodne i zaciemniało by kod. 
+html, czy pojedyncze pliki graficzne. Jak łatwo się domyślić takie
+przesyłanie plików byłoby bardzo niewygodne i zaciemniało kod. 
 
 Właśnie dlatego Express ma wbudowane middleware plików
 statycznych - czyli takich, które są serwowane identycznie
@@ -91,10 +91,10 @@ dla każdego klienta pod danym adresem.
 Zazwyczaj właśnie w ten sposób serwujemy cały frontend mając go
 po prostu w innym folderze. 
 
-ten middleware jest dostępny pod funkcją express.static().
+Ten middleware jest dostępny pod funkcją express.static().
 Należy jako argument podać folder plików statycznych. 
 
-Ma on opcjonalnie jako drugi parametr obiekt opcji, dzięi którym
+Ma on opcjonalnie jako drugi parametr - obiekt opcji, dzięi którym
 można min wybrać stonę główną, ograniczyć widzialność plików z kropką
 na początku, czy sterować cachem. 
 
