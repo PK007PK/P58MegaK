@@ -1,5 +1,5 @@
 /*
-Cookies
+#Cookies
 */
 
 const express = require('express');
@@ -40,8 +40,8 @@ function program2() {
     app.get('/', (req,res) => {
         res.cookie('cookie1', 'XXXC', {
             path: "/", //ma istnieć na każdej podstronie;
-            domain: "xyz.mydomain.com", //Tylko ta domena odczyta ciastko
-            expires: new Date(2022, 11, 31),  // miesiące w JS liczymy od 0, czyli jak damy tu 12 zamiast 11 to będzie zabawa
+            domain: "xyz.mydomain.com", //Tylko ta domena odczyta ciastko;
+            expires: new Date(2022, 11, 31), // miesiące w JS liczymy od 0, czyli jak damy tu 12 zamiast 11 to będzie zabawa
             maxAge: 1000 * 60 * 60 * 24 * 365, //Jeden rok zaczynając od 1s;
             httpOnly: true, //Najlepiej do wszystkiego co ma związek z logowaniem. 
             // document.cookie zwraca nam wszystkie cookies, chyba że mają 
@@ -65,7 +65,7 @@ function program2() {
 
 
 /*
-res.clearCookie()
+##res.clearCookie();
 Aby usunąć już stworzone wcześniej ciastko (np ktoś się wylogował) -
 używamy metody res.clearCookie().
 
@@ -101,7 +101,8 @@ function program3() {
 
 
 /*
-Odczytanie ciastka z poziomu programu
+##Odczytanie ciastka z poziomu programu
+
 Zadanie 1. Dodawanie ze ścieżki. 
 Stwórz taką aplikację Express, która potrafi przyjąć w ścieżce dwie liczy.
 Następnie odbierz je, zsumuj, a sumę wyświetl w przeglądarce. 
@@ -118,10 +119,6 @@ function program4() {
         const sum = Number(numA) + Number(numB);
         //res.send(sum); to da błąd. Bo musimy wysłać tekst
         res.send(`${sum}`); 
-    })
-    app.get('/logout', (req,res) => {
-        res.clearCookie('cookie1');
-        res.send('Loged out');
     })
     app.listen(3000, () => console.log("http://localhost:3000"));
 }
