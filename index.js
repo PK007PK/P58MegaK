@@ -6,7 +6,7 @@ Parametry ścieżek: dowolne dane przesyłane w dowolnym miejscu.
 /stala/sciezka/:zmienna
 /stala/inna/sciezka/:zmienna1/:zmienna2
 
-Kilka reguł: nazwy jak zmiennych, odzielone od pozostałych elementów ścieżki 
+Kilka reguł: nazwy zmiennych odzielone od pozostałych elementów ścieżki 
 za pomocą /,. lub -
 */
 const express = require('express')
@@ -14,7 +14,7 @@ const express = require('express')
 function program1() {
     const app = express();
 
-    app.get('/', (req, res)=>{
+    app.get('/', (req, res) => {
         res.send('Hi');
     })
 
@@ -116,7 +116,7 @@ function program4() {
     app.listen(3000, () => console.log("http://localhost:3000/"));
 }
 
-//program4()
+// program4()
 
 /*
 Obiekt response
@@ -126,10 +126,8 @@ jako drugi parametr w callbacku każdego zdarzenia.
 Najczęściej przyjęło się nazywać ten parametr res.
 Jest on typu Response bo reprezentuje każdą odpowiedź na zapytanie HTTP.
 Sprawdźmy jakie daje możliwości. 
-*/
 
-/*
-res.write(), res.end()
+##res.write(), res.end()
 
 Pamiętasz korzystanie z res.write() i res.end(), 
 aby wyświetlić coś w czystym serwerze HTTP Node?
@@ -143,6 +141,7 @@ app.get('/', (req,res) => {
     res.end();
 })
 
+##res.send
 Warto jednak korzystać z res.send('treść') bo jest szybszy
 res.send() robi wiele rzeczy: 
 - Ustawia nagłówek Content-Type automatycznie, w zależności co wyślemy. 
@@ -159,22 +158,22 @@ Możemy przesłać:
 - Buffer - application/octet-stream i przesyłanie czystych danych
 - array/Object - application/json i zakodowanie danych jako JSON
 
-res.json()
+##res.json()
 Ponieważ zdecydowana większość API jakie się tworzy otrzymuje i przesyła JSON-a
 Express ma wbudowaną metodę pomocniczą do wysyłania JSON-a. 
 
-Jest to res.json()
+##Jest to res.json()
 Działa podobnie jak res.send(), z tym że zawsze wysyła JSONa i ustawia 
 Content-Type na application/json
 
-res.json() vs res.send()
+##res.json() vs res.send()
 Jsona powinno się używać chcąc przesłać jsona, bo:
 1) Zawsze otrzymamy jsona, niezależnie od danych wejściowych. Dla res.send() 
 przy stringu nie uzyskasz JSON-a!
 2) Są dostępne pewne specjalne opcje w Express.js dla res.json 
 - m.in. pozwalające ładniej go formatować. 
 
-Przekierowania
+##Przekierowania res.location i res.redirect
 Czasami może się zdarzyć, że chcesz przekierować danego klienta na inny adres 
 - w Twoim systemie lub zewnętrzny. Można to osiągnąć przesyłając odpowiedni 
 kod statusu HTTP oraz odpowiedni nagłówek odpowiedzi Location
@@ -189,9 +188,10 @@ function program5() {
         res.location('https://onet.pl');
         res.end();
     })
-/*
-Jeszcze dużo dodatkowych ustawień, żeby to zadziałało. Więc może coś szybszego... Tym czymś jest res redirect
-*/
+    /*
+    Jeszcze dużo dodatkowych ustawień, żeby to zadziałało. Więc może coś szybszego... 
+    Tym czymś jest res redirect
+    */
 
     app.listen(3000, () => console.log("http://localhost:3000/"));
 }
@@ -210,10 +210,10 @@ function program6() {
 
     app.listen(3000, () => console.log("http://localhost:3000/"));
 }
-program6();
+//program6();
 
 /*
-Kody:
+##Kody:
 301- przekierowanie trwałe . Przeglądarka i wyszukiwarka powinny to zapamiętać
 302 - przekierowanie niestałe
 303 - zobacz gdzie indziej, tak jak 302, ale używane przy metodzie innej niż get, 
