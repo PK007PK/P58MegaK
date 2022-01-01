@@ -1,5 +1,6 @@
 /*
-Przesyłanie plików. 
+#Response CD
+##Przesyłanie plików res.sendFile() i res.attachment()
 
 Możemy przekazać Express.js informację, że chcemy przesłać do klienta plik. 
 W przypadku standardowego serwera Node.js nie byłoby to łatwe,
@@ -11,8 +12,6 @@ res.sendFile()
 
 W najprostszej wersji podajemy po prostu ścieżkę do pliku
 jaki chcemy przesłać.
-
-
 */
 
 const express = require('express');
@@ -20,7 +19,7 @@ const express = require('express');
 function program1() {
     const app = express();
     app.get('/', (req,res) => {
-        res.sendFile('obraz.bmp')
+        res.sendFile('obraz.gif')
     })
 
     app.listen(3000);
@@ -134,7 +133,7 @@ function program5() {
 //program5()
 
 /*
-res.set()
+##res.set()
 Metoda Expressa res.set() pozwala na ustawienie dowolnych,
 wewnętrznych nagłówków. Można to zrobić na dwa sposoby - 
 dla pojedynczego nagłówka podając jego nazwę i wartość jako
@@ -148,9 +147,8 @@ res.set({
 });
 */
 
-
 /*
-resheadersSent
+##resHeadersSent
 Właściwość. Zawiera informację czy nagłówki pozsały przesłane. 
 Pamiętaj - przy odpowiedzi napierw ustawiaj nagłówki, potem treść 
 odpowiedzi. Właśnie po to jest ta wartość - powie Ci czy nagłówki
@@ -159,7 +157,7 @@ treść.
 */
 
 /*
-res.cookies()
+##res.cookies()
 Ciasteczka są bardzo ważną częścią sieci. Pozwalają zapamiętać pewne
 krótkie informacje - jak identyfikatory, czy informację na temat 
 bycia zalogowanym - na urządzeniu klienta. 
@@ -179,4 +177,4 @@ function program6() {
     app.listen(3000, () => console.log("http://localhost:3000"));
 }
 
-program6()
+//program6()
