@@ -1,5 +1,5 @@
 /*
-Obiekt request
+#Obiekt request
 
 req w callbacku ekspresowy to nie to samo co req nodowy. 
 Ekspresowy jest znacznie zasobniejszy. 
@@ -13,6 +13,7 @@ Jest on typu Request i reprezentuje każde zapytanie HTTP.
 Zobaczmy co się w nim znajduje:
 */
 
+const express = require('express');
 
 function program1() {
     const app = express();
@@ -20,7 +21,7 @@ function program1() {
     Mogą istnieć dwa różne adresy, ale różnią się metorą i są to
     wtedy dwa różne zasoby. 
 
-    poniższego loga odpalamy kiedy insomia lub przeglądarka odezwie się do serwera.
+    poniższego logi odpalamy kiedy insomia lub przeglądarka odezwie się do serwera.
     */
 
     app.get('/', (req)=>{ 
@@ -69,25 +70,25 @@ function program1() {
 function program2() {
     const app = express();
     
-
     const allowedIps = ['localhost', '127.0.0.1', '::1', '::ffff:127:0.0.1'];
 
-    app.get('/', (req)=>{ 
-        if (allowedIps.includes(req.ips)) {
+    app.get('/', (req) => { 
+        console.log(req.ip);
+        console.log(req.ips);
+        if (allowedIps.includes(req.ip)) {
             console.log('Hello');
         } else {
             console.log("sio");
         }
     })
 
-
     app.listen('3000'); 
 }
 
-//program2();
+// program2();
 
 /*
-Parametry adresu URL
+##Parametry adresu URL
                                         query str separator
                                             *
 http://www/phoneshop.com ? product = iphone & size = 32gb & color=white
@@ -96,18 +97,15 @@ http://www/phoneshop.com ? product = iphone & size = 32gb & color=white
                                 parameter name
 
 
-te pytajniki są fajne, bo nie zmieniają nam ścieżki. Jak zapytamy o ścieżkę to ją dostaniemy bez parametrów. A jak poprosimy o req.url?
+te pytajniki są fajne, bo nie zmieniają nam ścieżki. Jak zapytamy o ścieżkę to ją dostaniemy bez parametrów. 
+A jak poprosimy o req.url?
 
 Jeżeli po com nie damy / to on jest dopisywany automatycznie
-*/
 
-/*
 Wchodzimy na: 
 http://127.0.0.1:3000/ciekawy?name=MegaK&etap=express
-*/
 
-/*
-Jak generować na front-endzie parametry adresu url
+##Jak generować na front-endzie parametry adresu url
 
 Po co? Linki do konkretnego użytkownika, paginacja, dynamiczne adresy wyszukiwania, filtrowanie i sortowanie...
 
@@ -137,16 +135,14 @@ function program3(){
 
     console.log(`http://localhost:3000/?${qs.toString()}`);
 }
+// program3()
 
 /*
-Odbieramy parametry
+##Odbieramy parametry
 */
 
-function program2() {
+function program4() {
     const app = express();
-    
-
-    const allowedIps = ['localhost', '127.0.0.1', '::1', '::ffff:127:0.0.1'];
 
     app.get('/', (req)=>{ 
         console.log(req.query);
@@ -156,25 +152,30 @@ function program2() {
 }
 
 /*
-Ekspres domyślnie źle reaguje na +, można to obsłużyć, ale my wygenerujemy teraz tak querry stringa, żeby tych plusów w miejscu spacji nie było.
+Ekspres domyślnie źle reaguje na +, można to obsłużyć, 
+ale my wygenerujemy teraz tak querry stringa, 
+żeby tych plusów w miejscu spacji nie było.
 */
 
-function generateQueryString(params) {
-    const qs = new URLSearchParams(params);
-    return `${qs}`.replace(/\+/g, "%20") //znajdź wszystkie + i zamień na "%20"
-}
+function program5() {
+    function generateQueryString(params) {
+        const qs = new URLSearchParams(params);
+        return `${qs}`.replace(/\+/g, "%20") //znajdź wszystkie + i zamień na "%20"
+    }
 
-console.log(`http://localhost:3000/?${generateQueryString({
-    name: 'Bartek & Kuba'
-})}}`);
+    console.log(`http://localhost:3000/?${generateQueryString({
+        name: 'Bartek & Kuba'
+    })}}`);
+}
+// program5()
 
 /*
-req.get() pobiera nagłówni przesłane przez klienta. 
+##req.get() pobiera nagłówni przesłane przez klienta. 
 
 Przykładowo aby dowiedzieć się skąd przybył wizytator (strona odsyłająca) możemy odczytać nagłówek Referer.
 
-Moglibyśmy np dzięki temu pobrać siasteczka - nagłówek cookies, ale są prostsze metody
+Moglibyśmy np dzięki temu pobrać ciasteczka - nagłówek cookies, ale są prostsze metody
 
-console.log(req.ger('cookie));
-console.log(req.ger('referer));
+console.log(req.get('cookie));
+console.log(req.get('referer));
 */
