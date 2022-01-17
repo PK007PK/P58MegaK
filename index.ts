@@ -13,7 +13,7 @@ function basics(): void {
     console.log(data); //123
 
     /*
-    Powyższ data ma tym any. Ts nie jest w stanie rozpoznać czym jest. 
+    Powyższa data ma typ any. Ts nie jest w stanie rozpoznać czym jest. 
     Będziemy wskazywać TS, że jeden typ jest innym typem. 
     Stary sposób, który źle współgra z reactem:
     */
