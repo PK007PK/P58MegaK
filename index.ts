@@ -154,7 +154,7 @@ function program3(): void {
 /*
 Dalsza rozbudowa. Łączenie klasy z interfejsem.
 Łączenie klasy i interfejsu ma być standardowym działaniem.
-K twierdzi że u niego w firmie żadko kiedy jest klasa bez i. 
+K twierdzi że u niego w firmie rzadko kiedy jest klasa bez i. 
 */
 
 function program4() {
