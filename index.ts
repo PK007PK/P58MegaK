@@ -1,317 +1,225 @@
 /*
-#Interface CD
+#Zadania CD
+Poniżej przykład z urzyciem klasy jako typu. 
 */
 
-function interfaceCD(): void {
-
-    interface Person {
+function excercise3(): void {
+    class User {
         name: string;
-        age: number;
-        isDeveloper: boolean;
-        greet(): string;
-        // greet2: () => string;
-    }
-
-    const person: Person = {
-        name: 'Bartek',
-        age: 123,
-        isDeveloper: true,
-
-        greet(): string {
-            console.log(`Hello, ${this.name}`);
-            return `Hello, ${this.name}`;
-        }
-    }
-
-    // function dateOfBirth(person: Person): number {}
-
-    function dateOfBirth({age}: Person): number {
-        return new Date().getFullYear() - age
-    }
-
-    console.log(dateOfBirth(person));
-
-    // Dodajemy achievements pod spodem 
-    const jacek: Person = {
-        name: 'Jacek',
-        age: 123,
-        isDeveloper: true,
-        //achievements: ['Abc', 'Bbb'],
-
-        greet(): string {
-            console.log(`Hello, ${this.name}`);
-            return `Hello, ${this.name}`;
-        }
-    }
-
-    const placek: Person = {
-        name: 'Placek',
-        age: 123,
-        isDeveloper: true,
-
-        greet(): string {
-            console.log(`Hello, ${this.name}`);
-            return `Hello, ${this.name}`;
-        }
-    }
-    
-}
-//interfaceCD();
-
-
-function program1(): void {
-    // Dodajemy achievements jednemu, a drugi nie ma osiągnięć. Jak to zrobić, żeby mogli być różni?
-
-    interface Person {
-        name: string;
-        age: number;
-        isDeveloper: boolean;
-        achievements?: string[] //Może być, ale nie musi -> ? . Właściwość opcjonalna. 
-        greet(): string;
-    }
-
-    const jacek: Person = {
-        name: 'Jacek',
-        age: 123,
-        isDeveloper: true,
-        achievements: ['Abc', 'Bbb'],
-
-        greet(): string {
-            console.log(`Hello, ${this.name}`);
-            return `Hello, ${this.name}`;
-        }
-    }
-
-    const placek: Person = {
-        name: 'Placek',
-        age: 123,
-        isDeveloper: true,
-
-        greet(): string {
-            console.log(`Hello, ${this.name}`);
-            return `Hello, ${this.name}`;
-        }
-    }
-
-    console.log(jacek.achievements); //Przy niektórych konfiguracjach to może nam dać błąd. Bo jeden ma osiągnięcia a drugi nie. 
-    console.log(placek.achievements); 
-
-    //Kolejny przykład:
-    const ar: Person[] = [] //To ma być tablica obiektów person
-}
-
-
-// Przykład pokazujący kiedy TS nie zadziałas
-function program2(): void {
-    interface Person {
-        name: string;
-        surname: string;
-        age: number;
-    }
-
-    const json = '{"name":"Kuba","dateOfBirth":2000}';
-
-    const person: Person = JSON.parse(json);
-
-    console.log(person.surname);
-    // Nie mamy błędu, wszystko jest ok, aż do loga. JSOn okazał się jednak nie być Personem
-    // a ts tego nie wykrył. 
-}
-
-/*
-Klasy mogą implementować interfejsy
-*/
-
-function program3(): void {
-    class Person {
-        constructor(name: string, age: number) {
-        //    this.name = name;
-        //    this.age = age;
-        }
-    }
-
-    /*
-    Pojawił się błąd, pomiomo że wszystko w JS zadziała jak trzeba. 
-    TS chce aby wszystko było poukładane, aby wszystko było najpier
-    wypisane. 
-    */
-
-    class Person2 {
-        name: string;
-        age: number;
-
-        constructor(name: string, age: number) {
+        constructor(name: string) {
             this.name = name;
-            this.age = age;
         }
     }
 
-    const bartek = new Person2("Bartek", 100);
-    console.log(bartek);
+    const json = '{"name": "Jan"}';
+    const {name} = JSON.parse(json) as User; // tu ważne!!!!!!!!!!!!!!
+    let user: string | User = name === "" ? "" : `User ${name}`;
 
+    if (user !== "") {
+        user = new User(user);
+    }
+    console.log(user);
 }
 
 /*
-Dalsza rozbudowa. Łączenie klasy z interfejsem.
-Łączenie klasy i interfejsu ma być standardowym działaniem.
-K twierdzi że u niego w firmie rzadko kiedy jest klasa bez i. 
+Z3 
 */
 
-function program4() {
-    
-    interface Human {
-        name: string;
-        surname: string;
-        age: number;
+function ex3(): void {
+    // interface CorrentType {
+    //     a: number | string;
+    //     b?: number | string;
+    //     sign?: "+" | "-" | "*" | "/";
+    // };
+
+    type Sign = "+" | "-" | "*" | "/";
+
+    interface CorrentType {
+        a: number | string;
+        b?: number | string;
+        sign?: Sign;
+    };
+
+    const a: CorrentType = {
+        a: 1,
+        b: 2,
+        sign: "+",
+    };
+
+    const b: CorrentType = {
+        a: 1,
+        b: 2,
+    };
+
+    const c: CorrentType = {
+        a: '1',
+        b: '2',
+        sign: "-",
+    };
+
+    const d: CorrentType = {
+        a: 1,
+        sign: '+',
+    }
+}
+
+//Zmieniamy program tak, żeby kiedy mamy a i b to dopuszczalne są inne operacje niż kiedy mamy tylko a
+
+function ex31(): void {
+    type TwoNumbersSign = "+" | "-" | "*" | "/";
+
+    interface TwoNumbersOperation {
+        a: number | string;
+        b: number | string;
+        sign?: TwoNumbersSign;
     }
 
-    class Person implements Human {
-        name: string;
-        age: number;
-        surname: string; // Brak surname teraz spowodowałby błąd
-        //surname: string = ""; Możemy dodać domyślną wartość. 
-        
-        constructor(name: string, age: number) {
-            this.name = name;
-            this.age = age;
+    type OneNumberSign = "++" | "--";
+
+    interface OneNumbersOperation {
+        a: number | string;
+        sign?: OneNumberSign;
+    }
+
+    type CorrentType = TwoNumbersOperation | OneNumbersOperation;
+
+    const a: CorrentType = {
+        a: 1,
+        b: 2,
+        sign: "+",
+    };
+
+    const b: CorrentType = {
+        a: 1,
+        b: 2,
+    };
+
+    const c: CorrentType = {
+        a: '1',
+        b: '2',
+        sign: "-",
+    };
+
+    const d: CorrentType = {
+        a: 1,
+        sign: '++',
+    }
+
+    //tylko a, więc ++ wchodzi, + nie wchodzi. 
+    const e: CorrentType = {
+        a: 10, 
+        sign: "++"
+    }
+}
+
+//Zmieniamy program tak, aby to operacji używać enumów a nie stringów. 
+
+function ex32(): void {
+    enum TwoNumbersSign {  //Enum to też jest typ
+        Add, 
+        Subtract,
+        Plus,
+        Minus, 
+        Multiply, 
+        Divide, 
+    }
+
+    interface TwoNumbersOperation {
+        a: number | string;
+        b: number | string;
+        sign?: TwoNumbersSign;
+    }
+
+    enum OneNumberSign {
+        Inc,
+        Dec,
+    }
+
+    interface OneNumbersOperation {
+        a: number | string;
+        sign?: OneNumberSign;
+    }
+
+    type CorrentType = TwoNumbersOperation | OneNumbersOperation;
+
+    const a: CorrentType = {
+        a: 1,
+        b: 2,
+        sign: TwoNumbersSign.Add,
+    };
+
+    const b: CorrentType = {
+        a: 1,
+        b: 2,
+    };
+
+    const c: CorrentType = {
+        a: '1',
+        b: '2',
+        sign: TwoNumbersSign.Subtract
+    };
+
+    const d: CorrentType = {
+        a: 1,
+        sign: OneNumberSign.Inc,
+    }
+
+    //tylko a, więc ++ wchodzi, + nie wchodzi. 
+    const e: CorrentType = {
+        a: 10, 
+        sign: OneNumberSign.Inc,
+    }
+
+    //Przykładowe wykorzystanie enumów
+    function calc({a,b,sign}: TwoNumbersOperation): void {
+        if (sign === TwoNumbersSign.Add) {
+            console.log(Number(a) + Number(b));
+            
+        }
+        else if (sign === TwoNumbersSign.Subtract) {}
+
+        //Pięknie działa ze SWITCHEM
+        switch(sign) {
+            case TwoNumbersSign.Add:
+                console.log(Number(a) + Number(b));
+            break;
+            case TwoNumbersSign.Subtract:
+                console.log(Number(a) + Number(b));
+            break;
         }
     }
 }
 
 /*
-Implementować możemy wiele klas.
-*/
-
-function program5() {
-    
-    interface Human {
-        name: string;
-        surname: string;
-        age: number;
-    }
-
-    interface History {
-        history: string[];
-        showHistory(): void;
-    }
-
-    class Person implements Human, History {
-        name: string;
-        age: number;
-        surname: string = ""; //Wrzucamy tu domyślne, aby nic już do konstruktora nie dodawać 
-        history: string[] = [];
-        
-        constructor(name: string, age: number) {
-            this.name = name;
-            this.age = age;
-        }
-        showHistory(): void {
-            console.log(this.history);
-        }
-    }
-}
-
-/*
-Interfejsy mogą rozszerzać inne interfejsy
+Z4 
 */
 
 
-function program6() {
-    
-    interface Human {
+function ex4(): void {
+    interface Product {
         name: string;
-        surname: string;
-        age: number;
+        count: number;
+        isDegradable: boolean;
     }
 
-    interface HumanWithRole extends Human {
-        role: string;
+    const product: Product = {
+        name: 'Opakowanie zbiorcze',
+        count: 1000,
+        isDegradable: true,
+    };
+
+    // function getProductProp(obj: Product, propName: "name" | "count" | "degradable"): string | number | boolean {
+    //     return obj[propName]
+    // }
+
+
+    //keyOf to typescriptowy operator
+    function getProductProp(obj: Product, propName: keyof Product): string | number | boolean {
+        return obj[propName]
     }
 
-    class User implements HumanWithRole {
-        role: string;
-        name: string;
-        surname: string;
-        age: number;
-    }
-}
 
-/*
-
-*/
-
-function program7() {
-    
-    interface Human {
-        name: string;
-        surname: string;
-        age: number;
-    }
-
-   interface HistoryEntry {
-       createdAt: Date;
-       event: string;
-   }
-
-   interface History {
-       history: HistoryEntry[];
-   }
-
-   /*
-   Można też tak: 
-
-    interface History {
-        history: {
-            createdAt: Date;
-            event: string;
-        }[]
-    }
-
-    */
-   class User implements Human, History {
-       history: HistoryEntry[] = [];
-       name: string;
-       surname: string;
-       age: number;
-
-       constructor(name: string, surname: string, age: number) {
-            this.name = name;
-            this.surname = surname;
-            this.age = age;
-       }
-
-       showHistory(): void {
-           console.log(this.history);
-           
-       }
-
-       addHistory(entry: HistoryEntry): void {
-           this.history.push(entry);
-       }
-   }
-
-   const person = new User("JJJ", "Kkkk", 100);
-   person.showHistory();
-   person.addHistory({
-       createdAt: new Date,
-       event: 'Zalogowano',
-   })
-   person.showHistory();
-}
-
-//program7();
-
-/*
-Jedna klasa dziedziczy z drugiej klasy, która ma zaimplementowany interfejs
-*/
-
-function program8() {
-    interface MyInterface {}
-
-    class A implements MyInterface {}
-
-    class B extends A {}
-
-    // Powyższe zadziała, B nie wymaga implementacji interfejsu. 
-    // Możemy go jednak dodatkowo zaimplementować także w B. 
+    const count = getProductProp(product, 'count') as number;
+    const degraded = getProductProp(product, "isDegradable") as boolean;
+    console.log(`${count.toFixed(2)} ${degraded ? "degraded" : "undegraded"}`);
 }
