@@ -111,7 +111,11 @@ console.log('This should be true if list is empty', !favorites.first());
 */
 
 interface Favorites {
-
+    list: string[];
+    first(): string | undefined;
+    last(): string | undefined;
+    add(url: string): void;
+    remove(urlOrAll: string | true): void;
 }
 
 class Bookmarks implements Favorites {
