@@ -46,6 +46,7 @@ Określenie struktury danych.
 */
 
 function interfaces(): void {
+
     const personA = {
         name: "Bartek",
         age: 123,
@@ -57,6 +58,7 @@ function interfaces(): void {
         age: 123,
         isDeveloper: 'Tak',
     }
+
     //Podobne, ale nie są porównywalne. Dane które trzymamy nie są ze sobą zgodne. 
     //Aby dane były ze sobą zgodne tworzymy najpierw interfejs który nam tego dopilnuje. 
 
@@ -93,7 +95,6 @@ function interfaces(): void {
 
     function greet(person: Person) {
         console.log(`Hello, ${person.name}`); //Po wpisaniu person już mamy piękne podpowiedzi.
-        
     }
 
     greet(personC);
