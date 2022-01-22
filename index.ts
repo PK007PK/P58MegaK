@@ -71,7 +71,8 @@ console.log(sum(2,'5')); // -> '25'
 function sum2(a: number,b: number) {
     return a + b;
 }
-//wpconsole.log(sum2(2,'5')); // podkreśli 5 jako nieprawidłowy a przy kompilacji rzuci błędem. 
+
+//wp console.log(sum2(2,'5')); // podkreśli 5 jako nieprawidłowy a przy kompilacji rzuci błędem. 
 
 function sum3(a: number,b: number): number {
     return a + b;
