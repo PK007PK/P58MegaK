@@ -5,6 +5,7 @@ Podstawowe typy zmiennych
 //##Typy proste
 const text: string = "A kuku";
 const color: 'Bialy' | "Żółty" | "Zielony" = "Bialy";
+const numberA: 1 | 2 | 3 = 3;
 const bool: boolean = true;
 const count: number = 125; 
 const count2: Number = 123; //deklarujemy, że to obiekt typu Number, js przekształca do niego 123 i wszystko jest ok teoretycznie. 
@@ -19,6 +20,7 @@ const foobar3: Array<string | number | boolean> = ['abc', 123, true];
 
 const num = JSON.parse('123');
 foobar.push(num); 
+
 /* W powyższym TS się nie zorientuje, że będzie błąd.
 Tak może być także z api i danymi z netu. 
 W takim przypadku musimy obsługę zrobić ręcznie
@@ -50,6 +52,8 @@ enum TaskPriority {
     High,
     Critical,
 }
+
+const abc: TaskPriority = TaskPriority.High
 
 const task = {
     name: "Do something",
