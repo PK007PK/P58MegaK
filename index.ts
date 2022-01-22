@@ -94,22 +94,114 @@ Protected od private różni się tym, że
 */
 
 function program4() {
-    class Human {
+    class Animal {
+        constructor(
+            protected readonly specieName: string
+            // public readonly specieName: string
+            // private readonly specieName: string
+        ) {}
+    }
+
+    class Human extends Animal {
         private readonly lifeEvents: string[] = [];
         private isAlive = true;
 
         constructor(
             public readonly name: string,
             public readonly surname: string,
-        ) {}
+        ) {
+            super('Human');
+        }
 
-        addLifeEvents(eventName: string) {
+        addLifeEvents(eventName: string): void {
             this.lifeEvents.push(eventName);
+        }
+
+        getLifeEvents(): string[] {
+            return this.lifeEvents.filter(s => s !== 'Kompromitacja');
+        }
+
+        foobar(): string {
+            return this.specieName; // Jeżeli w animal private to błąd, jeżeli public to ok. Jeżeli protected to też ok tutaj
         }
     }
 
     const bartek = new Human('Bartek', 'B');
-    console.log(bartek.addLifeEvents); //
     bartek.addLifeEvents.push("Zgon"); // Błąd bo private
     bartek.addLifeEvents("urodziny");
+    bartek.addLifeEvents("kompromitacja");
+    bartek.addLifeEvents("nowa praca");
+    console.log(bartek.lifeEvents); //Błąd bo private
+    console.log(bartek.specieName); //Błąd bo private lub protected
+    console.log(bartek.getLifeEvents()); //Też powinien być błąd, ale przy mojej konfiguracji nie ma. 
+}
+
+
+/*
+Metody też mogą mieć modyfikatory dostępu
+Wcześniej w czystym js chcąc mieć prywatne metody dawaliśmy podkreślnik _ . 
+Była to wyłącznie konwencja. Teraz dla metod możemy ustawiać modyfikatory dostęu. 
+*/
+
+function program5() {
+    class Animal {
+        constructor(
+            protected readonly specieName: string
+            // public readonly specieName: string
+            // private readonly specieName: string
+        ) {}
+    }
+
+    class Human extends Animal {
+        private readonly lifeEvents: string[] = [];
+        private isAlive = true;
+
+        constructor(
+            public readonly name: string,
+            public readonly surname: string,
+        ) {
+            super('Human');
+        }
+
+        addLifeEvents(eventName: string): void {
+            this.lifeEvents.push(eventName);
+            this.checkPulse(); // Tutaj możemy z tegp
+        }
+
+        getLifeEvents(): string[] {
+            return this.lifeEvents.filter(s => s !== 'Kompromitacja');
+        }
+
+        private checkPulse(): string {
+            if (!this.isAlive) {
+                return "Is dead"
+            } else {
+                return "Is alife"
+            }
+        }
+    }
+
+    const bartek = new Human('Bartek', 'B');
+    bartek.addLifeEvents.push("Zgon"); // Błąd bo private
+    bartek.addLifeEvents("urodziny");
+    bartek.addLifeEvents("kompromitacja");
+    bartek.addLifeEvents("nowa praca");
+    console.log(bartek.lifeEvents); //Błąd bo private
+    console.log(bartek.specieName); //Błąd bo private lub protected
+    console.log(bartek.getLifeEvents()); //Też powinien być błąd, ale przy mojej konfiguracji nie ma. 
+}
+
+/*
+Aktualnie w JS też istnieją pola prywatne oznaczane za pomocą znaku #
+*/
+
+class Xyz {
+    #history = [];
+
+    addHistoryEntry(entry) {
+        this.#history.push(entry)
+        this.#fooBar();
+    }
+
+    #fooBar() {}
 }
