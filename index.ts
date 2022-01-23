@@ -32,6 +32,7 @@ function interfaceCD(): void {
     console.log(dateOfBirth(person));
 
     // Dodajemy achievements pod spodem 
+
     const jacek: Person = {
         name: 'Jacek',
         age: 123,
@@ -60,7 +61,7 @@ function interfaceCD(): void {
 
 
 function program1(): void {
-    // Dodajemy achievements jednemu, a drugi nie ma osiągnięć. Jak to zrobić, żeby mogli być różni?
+    //Dodajemy achievements jednemu, a drugi nie ma osiągnięć. Jak to zrobić, żeby mogli być różni?
 
     interface Person {
         name: string;
@@ -125,14 +126,14 @@ Klasy mogą implementować interfejsy
 function program3(): void {
     class Person {
         constructor(name: string, age: number) {
-        //    this.name = name;
-        //    this.age = age;
+           this.name = name;
+           this.age = age;
         }
     }
 
     /*
     Pojawił się błąd, pomiomo że wszystko w JS zadziała jak trzeba. 
-    TS chce aby wszystko było poukładane, aby wszystko było najpier
+    TS chce aby wszystko było poukładane, aby wszystko było najpierw
     wypisane. 
     */
 
@@ -205,6 +206,7 @@ function program5() {
             this.name = name;
             this.age = age;
         }
+
         showHistory(): void {
             console.log(this.history);
         }
@@ -268,6 +270,7 @@ function program7() {
     }
 
     */
+
    class User implements Human, History {
        history: HistoryEntry[] = [];
        name: string;
@@ -282,7 +285,6 @@ function program7() {
 
        showHistory(): void {
            console.log(this.history);
-           
        }
 
        addHistory(entry: HistoryEntry): void {
