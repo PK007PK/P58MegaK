@@ -4,6 +4,7 @@ Poniżej przykład z urzyciem klasy jako typu.
 */
 
 function excercise3(): void {
+
     class User {
         name: string;
         constructor(name: string) {
@@ -18,6 +19,7 @@ function excercise3(): void {
     if (user !== "") {
         user = new User(user);
     }
+
     console.log(user);
 }
 
@@ -66,6 +68,7 @@ function ex3(): void {
 //Zmieniamy program tak, żeby kiedy mamy a i b to dopuszczalne są inne operacje niż kiedy mamy tylko a
 
 function ex31(): void {
+
     type TwoNumbersSign = "+" | "-" | "*" | "/";
 
     interface TwoNumbersOperation {
@@ -115,6 +118,7 @@ function ex31(): void {
 //Zmieniamy program tak, aby to operacji używać enumów a nie stringów. 
 
 function ex32(): void {
+
     enum TwoNumbersSign {  //Enum to też jest typ
         Add, 
         Subtract,
@@ -184,7 +188,7 @@ function ex32(): void {
                 console.log(Number(a) + Number(b));
             break;
             case TwoNumbersSign.Subtract:
-                console.log(Number(a) + Number(b));
+                console.log(Number(a) - Number(b));
             break;
         }
     }
@@ -196,6 +200,7 @@ Z4
 
 
 function ex4(): void {
+
     interface Product {
         name: string;
         count: number;
@@ -212,12 +217,10 @@ function ex4(): void {
     //     return obj[propName]
     // }
 
-
     //keyOf to typescriptowy operator
     function getProductProp(obj: Product, propName: keyof Product): string | number | boolean {
         return obj[propName]
     }
-
 
     const count = getProductProp(product, 'count') as number;
     const degraded = getProductProp(product, "isDegradable") as boolean;
