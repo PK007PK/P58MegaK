@@ -54,6 +54,13 @@ function incPoints(obj: PersonData): number {
     return obj.points;
 }
 
+function incPoints2({points}: PersonData): number {
+    points++;
+    return points;
+}
+
+incPoints2(data[1]);
+
 function totalPoints(arr: PersonAr): number {
     return arr.reduce((prev,curr) => prev + curr.points, 0)
 }
