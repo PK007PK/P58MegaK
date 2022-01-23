@@ -120,6 +120,7 @@ interface Favorites {
 
 class Bookmarks implements Favorites {
     list: string[];
+
     constructor() {
         this.list = [];
     }
@@ -157,15 +158,20 @@ function createLink(bookmark: string | undefined): string {
 
 favorites.add('http://wp.pl');
 const firstLink = favorites.first();
+
 if (firstLink) {
     console.log(createLink(favorites.first()));
 };
+
 favorites.remove('http://wp.pl');
 const nextLink = favorites.first();
+
 if (nextLink) {
     console.log(createLink(nextLink));
 }
+
 favorites.add('http://wp.pl');
 favorites.add('http://onet.pl');
+
 favorites.remove(true); // This should remove all
 console.log('This should be true if list is empty', !favorites.first());
