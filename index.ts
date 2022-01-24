@@ -1,0 +1,3 @@
+/*
+Gettery i settery
+*/
