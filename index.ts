@@ -32,6 +32,7 @@ if (typeof num !== "string") {
 
 const foobar4:string[] = ['abc', 'bbb', 'zzz'];  //skrót do pisania tablic. Najpopularniejszy sposób pisania tablic
 const foobar5:number | string[] = ['abc', 2, 3, 'bbb', 'zzz'];  //tak już nie wejdzie bo ma to być number lub tablica stringów
+const foobar51: (number | string)[] = ['abc', 2, 3, 'bbb', 'zzz'];  //tak już nie wejdzie bo ma to być number lub tablica stringów
 
 //##Enum(wyliczenie) - pozwala wypiusać pewne rzeczy. Enum to nie jest JS tylko TS. 
 const bartekUserRole = "Admin"; 
