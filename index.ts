@@ -1,69 +1,143 @@
 /*
-#Export, default export
-require to common js. 
-
-Export i import problematyczne w common js od zawsze wspierany jest w TS.
+Zadanie. Sprawdzamy jaki rodzaj kodu wykonuje się najszybciej. 
 */
 
-// enum Gender {
-//     Woman,
-//     Man,
-//     Xyz,
-// }
+class Test {
+    push() {
+        console.log("Testing push...");
+        const ar = [];
+        const start = + new Date();
+        for (let i = 0; i < 100000; i++) {
+            ar.push(i);
+        }
+        const end = + new Date();
+        console.log(`Push. It took ${end - start} ms.`);
+        
+    }
 
-// console.log(Gender[Gender.Woman]);
+    desc() {
+        console.log("Testing push...");
+        let ar: number[] = [];
+        const start = + new Date();
+        for (let i = 0; i < 100000; i++) {
+            ar = [...ar, i];
+        }
+        const end = + new Date();
+        console.log(`Desc. It took ${end - start} ms.`);
+    }
 
-//1
-// export {
-//     Gender,
-// }
-
-//2
-/*
-export enum Gender {
-    Woman,
-    Man,
-    Xyz,
-}
-*/
-
-//Zmiana nazwy w imporcie
-//const {Gender: Sex} = require('./types/gender');
-//const {Gender as Sex} = require('./types/gender');
-
-
-//Defaultowe są nienazwane, więc unika się ich aby możliwa było podpowiadanie składni.
-
-//Import default może nadać dowolną nazwę. 
-
-//W osobnym pliku: types/index.ts robimy coś takiego
-export * from './gender';
-export * from './single-todo';
-
-//W pliku index.ts (ale nie w types) możemy to teraz zainportować:
-import {} from './types' //Jak wklikamy się w ten import {} to dostaniemy tam wszystko, co jest importowane z typów.
-//Nie musimy sobie przypominać jak co się nazywa
-
-//Eksportowanie klas. Trzymamy się zasady. Jedna klasa - jeden plik. 
-export class TodoApi {
-    create() {}
-    something() {}
+    last() {
+        console.log("Testing push...");
+        let ar: number[] = [];
+        const start = + new Date();
+        for (let i = 0; i < 100000; i++) {
+            ar[ar.length] = i;
+        }
+        const end = + new Date();
+        console.log(`Last. It took ${end - start} ms.`);
+    }
 }
 
-/*
-Staramy się bez export default
-Eksportujemy to co niezbędne
-Nie używamy wielu namespaców
-Nie eksportój name spaców jeżeli nie musisz
-1 klasa = 1 plik
-1 klasa = 1 eksport
-*/
+const testSuite = new Test();
+// testSuite.push();
+// testSuite.desc();
+// testSuite.last();
 
 /*
-# Pliki definicji
-Niebieska ikonka TS w npmjs.com oznacza, że jak zainstalujesz daną paczkę to dostaniesz jednocześnie
-wszystkie pliki definicji. 
-
-Biała ikonka z DT oznacza że opcjonalnie można doczytać definicje. 
-npm i @types/express -D - zazwyczaj tak wygląda paczka z typami. Trzeba pamiętać, żeby to było w dev dep. 
+Dekoratory
+Rozbudować config o:
+"experimentalDecorators": true,
+"emitDecoratorMetadata": true,
+Mało prawdopodobne, abym w najbliższej przyszłości potrzebował dekoratora. 
+Dekoratory, to takie kawałki kodu, które rozszerzają działanie jednej z trzech rzeczy: 
+całej klasy, metody, właściwości. 
+Rozpoznajemy je po małpce. 
+@Decorator()
+Zastosowanie dekoratorów wygląda jak poniżej.
+Nie pokazują jak je robić, bo jest to skompikowane w samym js/ts
 */
+
+
+class Test2{
+    @measureTime();
+    @description('array.push()');
+    push() {
+        const ar = [];
+        const start = + new Date();
+        for (let i = 0; i < 100000; i++) {
+            ar.push(i);
+        }
+        const end = + new Date();       
+    }
+
+    @measureTime();
+    @description('array.desc()');
+    desc() {
+        let ar: number[] = [];
+        const start = + new Date();
+        for (let i = 0; i < 100000; i++) {
+            ar = [...ar, i];
+        }
+        const end = + new Date();
+    }
+
+    @measureTime();
+    @description('array.last()');
+    last() {
+        let ar: number[] = [];
+        const start = + new Date();
+        for (let i = 0; i < 100000; i++) {
+            ar[ar.length] = i;
+        }
+        const end = + new Date();
+    }
+}
+
+//Zadanie
+// Zróbmy możliwość zmiany name na Kuba lub Bartek, ale inaczej nie.
+// TaK samo gender: man lub woman
+
+function program1() {
+    class Test3 {
+        constructor(public name: string, public gender: string) {}
+    }
+
+    const foobar = new Test3("bartek");
+    foobar.name = "Kuba"; 
+    console.log(foobar.name);
+}
+
+//Rozwiązanie
+
+function program3() {
+    type Names = "bartek" | "kuba";
+    type Gender = "man" | "woman";
+
+    class Test3 {
+        constructor(private userName: Names, private userGender: Gender) {}
+
+        get name(): Names {
+            return this.userName;
+        }
+
+        set name(newName: Names) {
+            if (!['bartek', 'kuba'].includes(newName)) {
+                throw new Error("Name must be bartek or kuba");
+            }
+            this.userName = newName; 
+        }
+    }
+
+    const foobar = new Test3("bartek", "man");
+    foobar.name = "kuba"; 
+    console.log(foobar.name);
+}
+
+//Z dekoratorami tak:
+class Test100 {
+    @allowListOnly(['bartek', 'kuba'])
+    name: string = "bartek";
+
+    @allowListOnly(['man', 'woman']
+    gender: string = 'man';
+}
