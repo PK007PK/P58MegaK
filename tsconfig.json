@@ -9,5 +9,6 @@
         "outDir": "dist",
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
+        "moduleResolution": "Node"
     }
 }
