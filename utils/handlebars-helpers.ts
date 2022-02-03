@@ -1,6 +1,6 @@
-
+type Entries = [string, number][]
 export const handlebarsHelpers = {
-    findPrice: (entries: [string, number][], selectedItem) => {
+    findPrice: (entries: Entries, selectedItem: string): number => {
         const found = entries.find(el => el[0] === selectedItem);
 
         if (!found) {
@@ -11,9 +11,10 @@ export const handlebarsHelpers = {
         return price;
     },
 
-    pricify: price => price.toFixed(2),
+    pricify: (price: number): string => price.toFixed(2),
 
-    isNotInArray: (array, element) => !array.includes(element),
+    isNotInArray: <T>(array: T[], element: T): boolean => !array.includes(element),
 
-    isInArray: (array, element) => array.includes(element),
+    //Dobry przykład typu generycznego
+    isInArray: <T>(array: T[], element: T): boolean => array.includes(element),
 };
