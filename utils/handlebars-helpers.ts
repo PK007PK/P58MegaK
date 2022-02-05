@@ -1,4 +1,5 @@
-type Entries = [string, number][]
+import { Entries } from "../types/entries";
+
 export const handlebarsHelpers = {
     findPrice: (entries: Entries, selectedItem: string): number => {
         const found = entries.find(el => el[0] === selectedItem);

@@ -8,6 +8,7 @@ import {OrderRouter} from "./routes/order";
 import {handlebarsHelpers} from "./utils/handlebars-helpers";
 import {COOKIE_BASES, COOKIE_ADDONS} from "./data/cookies-data";
 import { Request, Response } from 'express-serve-static-core';
+import { Entries } from './types/entries';
 
 export class CookieMakerApp {
     private app: express.Application;
@@ -42,7 +43,7 @@ export class CookieMakerApp {
 
     _run(): void {
         this.app.listen(3000, '0.0.0.0', () => {
-            console.log('Listening on :3000');
+            console.log('Listening on https://localhost:3000');
         });
     }
 
@@ -62,8 +63,9 @@ export class CookieMakerApp {
     getCookieSettings(req: Request): {
         addons: string[],
         base: string | undefined, // to samo w praktyce co base?: string
-        sum: number;
-        allBases: Map<string, number>;
+        sum: number,
+        allBases: Entries,
+        allAddons: Entries,
     } {
         const {cookieBase: base} = req.cookies as {
             cookieBase?: string, //to sam w praktyce co : string | undefined;
