@@ -7,13 +7,16 @@ import {ConfiguratorRouter} from "./routes/configurator";
 import {OrderRouter} from "./routes/order";
 import {handlebarsHelpers} from "./utils/handlebars-helpers";
 import {COOKIE_BASES, COOKIE_ADDONS} from "./data/cookies-data";
-import { Request } from 'express-serve-static-core';
+import { Request, Response } from 'express-serve-static-core';
 
 export class CookieMakerApp {
-    app: express.Application;
+    private app: express.Application;
+    private data = {
+        COOKIE_BASES,
+        COOKIE_ADDONS,
+    };
 
     constructor() {
-        this._loadData();
         this._configureApp();
         this._setRoutes();
         this._run();
@@ -49,17 +52,22 @@ export class CookieMakerApp {
         });
     }
 
-    getAddonsFromReq(req: express.Request): any[] {
+    getAddonsFromReq(req: express.Request): string[] { //@TODO check
         const {cookieAddons} = req.cookies as {
             cookieAddons: string;
         }; //cookie to any, zamiast tego możemy dać as {cookieAddons: string} i robimy coś jak interfejs
         return cookieAddons ? JSON.parse(cookieAddons) : [];
     }
 
-    getCookieSettings(req: Request) {
+    getCookieSettings(req: Request): {
+        addons: string[],
+        base: string | undefined, // to samo w praktyce co base?: string
+        sum: number;
+        allBases: Map<string, number>;
+    } {
         const {cookieBase: base} = req.cookies as {
-            cookieBase: string;
-        }; 
+            cookieBase?: string, //to sam w praktyce co : string | undefined;
+        };
 
         const addons = this.getAddonsFromReq(req);
 
@@ -85,12 +93,7 @@ export class CookieMakerApp {
         };
     }
 
-    _loadData() {
-        this.data = {
-            COOKIE_BASES,
-            COOKIE_ADDONS,
-        };
-    }
+
 }
 
 new CookieMakerApp();
