@@ -17,7 +17,7 @@ const foobar2: Array<any> = ['abc', 123, true];
 const foobar3: Array<string | number | boolean> = ['abc', 123, true]; 
 
 //#Obiekty
-allBases: Map<string, number> //All bases to obiekt, gdzie klucze są stringami, a wartości liczbami
+allBases: Record<string, number> //All bases to obiekt, gdzie klucze są stringami, a wartości liczbami
 
 //Pamiętamy, że TS pokazuje nam błędy przy pisaniu kodu, ale przy wykonywaniu już nie (jeżeli w JS wszystko jest ok)
 
