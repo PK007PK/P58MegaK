@@ -18,7 +18,7 @@ export class ConfiguratorRouter {
     private selectBase = (req: Request, res: Response) => {
         const {baseName} = req.params;
 
-        if (!this.cmapp.data.COOKIE_BASES[baseName]) {
+        if (!(this.cmapp.data.COOKIE_BASES as Record<string, number>)[baseName]) {
             return this.cmapp.showErrorPage(res, `There is no such base as ${baseName}.`);
         }
 

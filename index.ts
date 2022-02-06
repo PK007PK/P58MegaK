@@ -12,7 +12,7 @@ import { Entries } from './types/entries';
 
 export class CookieMakerApp {
     private app: express.Application;
-    private data = {
+    public readonly data = {
         COOKIE_BASES,
         COOKIE_ADDONS,
     };
@@ -85,10 +85,8 @@ export class CookieMakerApp {
             // Selected stuff
             addons,
             base,
-
             // Calculations
             sum,
-
             // All possibilities
             allBases,
             allAddons,
