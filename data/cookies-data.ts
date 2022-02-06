@@ -1,4 +1,4 @@
-export const COOKIE_BASES = {
+export const COOKIE_BASES: Record<string, number> = { //Tego recorda możemy tu nie pisać, sam się zrobi, tak tylko żeby zanotować
     light: 5,
     dark: 5,
 };
