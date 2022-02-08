@@ -51,7 +51,7 @@ export class GiftRecord {
     }
 
     async countGivenGifts(): Promise<number> {
-        const [[{count}]] /* answer[0][0].count */ = await pool.execute("SELECT COUNT(*) AS `count` FROM `children` WHERE `giftId` = :id", {
+        const [[{count}]] = await pool.execute("SELECT COUNT(*) AS `count` FROM `children` WHERE `giftId` = :id", {
             id: this.id,
         }) as GiftRecordResults;
         return count;
