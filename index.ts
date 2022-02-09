@@ -1,13 +1,13 @@
-const express = require("express");
-require('express-async-errors');
+import * as express from "express";
+import 'express-async-errors'; //To jest bardzo nietypowe, hackuje nam expresa aby obsługiwał asynchroniczne błędy. 
 const methodOverride = require("method-override");
 const {engine} = require("express-handlebars");
-const {handleError} = require("./utils/errors");
-const {homeRouter} = require("./routers/home");
-const {childRouter} = require("./routers/child");
-const {giftRouter} = require("./routers/gift");
-require('./utils/db');
-const {handlebarsHelpers} = require("./utils/handlebars-helpers");
+import {handleError} from "./utils/errors";
+import {homeRouter} from "./routers/home";
+import {childRouter} from "./routers/child";
+import {giftRouter} from "./routers/gift";
+import './utils/db';
+import {handlebarsHelpers} from "./utils/handlebars-helpers";
 
 const app = express();
 
