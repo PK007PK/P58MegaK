@@ -3,6 +3,7 @@ import "express-async-errors"; //To musi być pod ekspresem, żeby hackować exp
 import {static as eStatic, urlencoded} from 'express';
 import * as methodOverride from 'method-override';
 import {engine} from 'express-handlebars';
+import { homeRouter } from './routers/home';
 // import { handleError } from './utils/errors';
 
 const app = express();
@@ -17,9 +18,8 @@ app.engine('.hbs', engine({//Zmieniło się w stosunku do poprzednich wersji
 })); 
 app.set('view engine', '.hbs');
 
-app.get('/', (req,res) => {
-    res.send('hello');
-});
+//Routy powinniśmy dodawać po konfiguracji ekspresu, a przed obsługą błędów
+app.use('/', homeRouter);
 
 //app.use(handleError)
 app.listen(3000, ()=>console.log("Listening on http://localhost3000"));
