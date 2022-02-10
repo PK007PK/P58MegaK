@@ -28,4 +28,4 @@ app.use('/arena', arenaRouter);
 app.use('/hall-of-fame', hallOfFameRouter);
 
 //app.use(handleError)
-app.listen(3000, ()=>console.log("Listening on http://localhost3000"));
+app.listen(3000, ()=>console.log("Listening on http://localhost:3000"));
