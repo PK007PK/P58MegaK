@@ -4,9 +4,9 @@ export const warriorRouter = Router(); //Ma być bez new, tak to sobie wymyślil
 
 warriorRouter
     .get('/add-form', (req, res) => {
-        res.send("Formularz dodawania wojownika");
+        res.render('warrior/add-form');
     })
 
     .post('/add-form', (req, res) => {
-        res.send("Dodanie wojownika");
+        res.render('warrior/warrior-added');
     })

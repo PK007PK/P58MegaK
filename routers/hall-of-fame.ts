@@ -4,5 +4,5 @@ export const hallOfFameRouter = Router(); //Ma być bez new, tak to sobie wymyś
 
 hallOfFameRouter
     .get('/', (req, res) => {
-        res.send("Sala sław");
+        res.render('hall-of-fame/list');
     })

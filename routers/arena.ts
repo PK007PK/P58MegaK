@@ -4,9 +4,9 @@ export const arenaRouter = Router(); //Ma być bez new, tak to sobie wymyślili 
 
 arenaRouter
     .get('/fight-form', (req, res) => {
-        res.send("Formularz walki");
+        res.render('arena/fight-form');
     })
 
     .post('/fight', (req, res) => {
-        res.send("Przeprowadzenie walki");
-    }) //POST /arena/fight
+        res.render('arena/fight');
+    }) 
