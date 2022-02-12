@@ -8,6 +8,7 @@ import { warriorRouter } from './routers/warrior';
 import { arenaRouter } from './routers/arena';
 import { hallOfFameRouter } from './routers/hall-of-fame';
 // import { handleError } from './utils/errors';
+import './utils/db'; //Robimy pusty import aby połączenie z bazą danych się otworzyło
 
 const app = express();
 app.use(methodOverride('_method'));
