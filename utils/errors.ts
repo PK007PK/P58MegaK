@@ -17,12 +17,6 @@ export const handleError = (err: Error, req: express.Request, res: express.Respo
             to problem po stronie apki. 
         */
         .render('error', {
-            message: err instanceof ValidationError ? "Tak" : "Nie",
+            message: err instanceof ValidationError ? err.message : 'Przepraszamy, spróbuj ponownie za kilka minut.',
         });
-        // .render('error', {
-        //     message: err instanceof ValidationError ? err.message : 'Przepraszamy, spróbuj ponownie za kilka minut.',
-        // });
-        // .render('error', {
-        //     message: err.message,
-        // });
 };

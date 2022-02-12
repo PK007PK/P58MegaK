@@ -90,12 +90,12 @@ export class WarriorRecord {
     //Zwróci tablicę WR lub pustą tablicę. 
 
     static async listAll(): Promise<WarriorRecord[]> {
-        const [results] = await pool.execute("SELECT * FROM `warrior`") as WarriorRecordResults;
+        const [results] = await pool.execute("SELECT * FROM `warriors`") as WarriorRecordResults;
         return results.map(obj => new WarriorRecord(obj));
     }
 
     static async listTop(topCount: number): Promise<WarriorRecord[]> {
-        const [results] = await pool.execute("SELECT * FROM `warrior` ORDER BY `wins` DESC LIMIT :topCount", {
+        const [results] = await pool.execute("SELECT * FROM `warriors` ORDER BY `wins` DESC LIMIT :topCount", {
             topCount,
         }) as WarriorRecordResults;
         return results.map(obj => new WarriorRecord(obj));
