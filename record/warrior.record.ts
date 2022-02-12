@@ -79,7 +79,7 @@ export class WarriorRecord {
     }
 
     static async getOne(id: string): Promise<WarriorRecord | null> {
-        const [results] = await pool.execute("SELECT * FROM `warrior` WHERE `id` = :id", {
+        const [results] = await pool.execute("SELECT * FROM `warriors` WHERE `id` = :id", {
             id,
         }) as WarriorRecordResults;
 
@@ -99,6 +99,14 @@ export class WarriorRecord {
             topCount,
         }) as WarriorRecordResults;
         return results.map(obj => new WarriorRecord(obj));
+    }
+
+    static async isNameTaken(name: string): Promise<boolean> {
+        const [results] = await pool.execute("SELECT * FROM `warriors` WHERE `name` = :name", {
+            name,
+        }) as WarriorRecordResults;
+
+        return results.length > 0;
     }
 
 }
