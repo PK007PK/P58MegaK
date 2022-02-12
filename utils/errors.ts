@@ -3,7 +3,6 @@ import * as express from 'express';
 export class ValidationError extends Error {}
 
 export const handleError = (err: Error, req: express.Request, res: express.Response, next: express.NextFunction): void => {
-    console.error(err);
     res
         /*
             Sprawdzamy poniżej, czy błąd jest naszym błędem. Czyli że ktoś coś źle podał. Jeżeli tak to 400. 
@@ -18,6 +17,12 @@ export const handleError = (err: Error, req: express.Request, res: express.Respo
             to problem po stronie apki. 
         */
         .render('error', {
-            message: err instanceof ValidationError ? err.message : 'Przepraszamy, spróbuj ponownie za kilka minut.',
+            message: err instanceof ValidationError ? "Tak" : "Nie",
         });
+        // .render('error', {
+        //     message: err instanceof ValidationError ? err.message : 'Przepraszamy, spróbuj ponownie za kilka minut.',
+        // });
+        // .render('error', {
+        //     message: err.message,
+        // });
 };

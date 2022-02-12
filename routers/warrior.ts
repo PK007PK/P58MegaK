@@ -23,5 +23,8 @@ warriorRouter
         });
 
         await warrior.insert();
-        res.render('warrior/warrior-added');
+        res.render('warrior/warrior-added', {
+            id: warrior.id,
+            name: warrior.name,
+        });
     })
