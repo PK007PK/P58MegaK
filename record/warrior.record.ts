@@ -59,7 +59,7 @@ export class WarriorRecord {
         }); ale to niebezpieczne, bo jak ktoś nam przez przypadek rozszerzy klasę o coś, czego 
         mysql nie łyknie to się wszystko wykrzaczy. Czyli ręcznie jednak lepiej. Podobno istnieje jeszcze lepszy sposób. 
         */
-        await pool.execute("INSERT INTO 'warriors'('id', 'name', 'power', 'defence', 'stamina', 'agility', 'wins') VALUES(:id, :name, :power, :defence, :stamina, :agility, :wins)", {
+        await pool.execute("INSERT INTO `warriors`(`id`, `name`, `power`, `defence`, `stamina`, `agility`, `wins`) VALUES(:id, :name, :power, :defence, :stamina, :agility, :wins)", {
             id: this.id,
             name: this.name,
             power: this.power,

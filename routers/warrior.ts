@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { WarriorRecord } from "../record/warrior.record";
 
 export const warriorRouter = Router(); //Ma być bez new, tak to sobie wymyślili w expresie
 
@@ -7,6 +8,14 @@ warriorRouter
         res.render('warrior/add-form');
     })
 
-    .post('/add-form', (req, res) => {
+    .post('/add-form', async (req, res) => {
+        const warrior = new WarriorRecord({
+            ...req.body,
+            power: Number(req.body.power),
+            defence: Number(req.body.defence),
+            stamina: Number(req.body.stamina),
+            agility: Number(req.body.agility),
+        });
+        await warrior.insert();
         res.render('warrior/warrior-added');
     })
