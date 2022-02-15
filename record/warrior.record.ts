@@ -73,7 +73,8 @@ export class WarriorRecord {
     }
 
     async update(): Promise<void> {
-        await pool.execute("Update `warriors` SET `wins` = :wins", {
+        await pool.execute("Update `warriors` SET `wins` = :wins WHERE id =:id", {
+            id: this.id,
             wins: this.wins,
         })
     }
@@ -83,7 +84,7 @@ export class WarriorRecord {
             id,
         }) as WarriorRecordResults;
 
-        return results.length === 0 ? null : results[0];
+        return results.length === 0 ? null : new WarriorRecord(results[0]);
     }
 
     //Poniżej nie dajemy WarriorRecord | null, bo funkcja będzie działała inaczej
