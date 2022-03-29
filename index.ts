@@ -1,5 +1,6 @@
 import * as express from "express";
 import 'express-async-errors'; //To jest bardzo nietypowe, hackuje nam expresa aby obsługiwał asynchroniczne błędy. 
+import * as cors from 'cors';
 const methodOverride = require("method-override");
 const {engine} = require("express-handlebars");
 import {handleError} from "./utils/errors";
@@ -11,7 +12,10 @@ import {handlebarsHelpers} from "./utils/handlebars-helpers";
 
 const app = express();
 
-app.use(methodOverride('_method'));
+app.use(cors({
+    origin: 'http://localhost:3000', //Tu trzeba ustawiać adresy dopuszczalne. 
+})); //Takie, które faktycznie mają mieć możliwość połączenia. Można kilka ustawić. 
+// app.use(methodOverride('_method'));
 // app.use(express.urlencoded({
 //     extended: true,
 // }));
