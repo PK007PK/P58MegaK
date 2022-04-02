@@ -11,7 +11,11 @@ childRouter // /child
         const childrenList = await ChildRecord.listAll();
         const giftsList = await GiftRecord.listAll();
 
-        res.render('children/list', {
+        // res.render('children/list', {
+        //     childrenList,
+        //     giftsList,
+        // });
+        res.json({
             childrenList,
             giftsList,
         });

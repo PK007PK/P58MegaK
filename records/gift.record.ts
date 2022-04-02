@@ -2,13 +2,11 @@ import {pool} from "../utils/db";
 import {ValidationError} from "../utils/errors";
 import {v4 as uuid} from "uuid";
 import { FieldPacket } from "mysql2";
+import { GiftEntity } from "../types";
 
 type GiftRecordResults = [GiftRecord[], FieldPacket[]];
 
-export class GiftRecord {
-    public id?: string;
-    public name: string;
-    public count: number;
+export class GiftRecord implements GiftEntity {
 
     constructor(obj: GiftRecord) {
         if (!obj.name || obj.name.length < 3 || obj.name.length > 55) {
@@ -23,6 +21,9 @@ export class GiftRecord {
         this.name = obj.name;
         this.count = obj.count;
     }
+    id?: string;
+    name: string;
+    count: number;
 
     async insert(): Promise<string> {
         if (!this.id) {
@@ -48,6 +49,12 @@ export class GiftRecord {
             id,
         })) as GiftRecordResults;
         return results.length === 0 ? null : new GiftRecord(results[0]);
+    }
+
+    async delete(): Promise<void> {
+        await pool.execute("DELETE FROM `gifts` WHERE `id` = :id", {
+            id: this.id,
+        });
     }
 
     async countGivenGifts(): Promise<number> {
