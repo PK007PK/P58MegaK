@@ -4,7 +4,6 @@ import * as cors from 'cors';
 const methodOverride = require("method-override");
 const {engine} = require("express-handlebars");
 import {handleError} from "./utils/errors";
-import {homeRouter} from "./routers/home";
 import {childRouter} from "./routers/child";
 import {giftRouter} from "./routers/gift";
 import './utils/db';
@@ -27,7 +26,6 @@ app.use(express.json()); // Content-type: application/json
 // }));
 // app.set('view engine', '.hbs');
 
-app.use('/', homeRouter);
 app.use('/child', childRouter);
 app.use('/gift', giftRouter);
 

@@ -2,15 +2,13 @@ import {pool} from "../utils/db";
 import {ValidationError} from "../utils/errors";
 import {v4 as uuid} from "uuid";
 import { FieldPacket } from "mysql2";
+import { ChildEntity } from "../types/child/child.entity";
 
 type ChildRecordResults = [ChildRecord[], FieldPacket[]];
 
-export class ChildRecord {
-    public id?: string;
-    public name: string;
-    public giftId: string;
+export class ChildRecord implements ChildEntity{
 
-    constructor(obj: ChildRecord) { //Może się sama do siebie odwołać
+    constructor(obj: ChildEntity) { //Może się sama do siebie odwołać
         if (!obj.name || obj.name.length < 3 || obj.name.length > 25) {
             throw new ValidationError('Imię musi mieć od 3 do 25 znaków.');
         }
@@ -19,6 +17,9 @@ export class ChildRecord {
         this.name = obj.name;
         this.giftId = obj.giftId;
     }
+    id?: string;
+    name: string;
+    giftId: string;
 
     async insert(): Promise<string> {
         if (!this.id) {
